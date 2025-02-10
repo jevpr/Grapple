@@ -1,13 +1,11 @@
 from django.urls import path
 from . import views
-from .views import quiz_detail
-
+from django.contrib.auth.views import LoginView
+from .views import dashboard_view, quiz_detail
 
 urlpatterns = [
-    path('', views.dashboard_view, name='dashboard'),
-    path('create-lesson/', views.create_lesson, name='create_lesson'),
-    path('lesson/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
-    path('quiz/<int:quiz_id>/', quiz_detail, name='quiz_detail'),
-
+    path('', dashboard_view, name='home'),
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'), 
 ]
 

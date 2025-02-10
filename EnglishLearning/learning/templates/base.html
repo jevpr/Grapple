@@ -1,17 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Grapple{% endblock %}</title>
-    <link rel="stylesheet" href="/EnglishLearning/learning/static/css/style.css">
-</head>
-<body>
-   <nav>
-    <a href="{% url 'home' %}">Home</a>
-    <a href="{% url 'signup' %}">Sign Up</a>
-    <a href="{% url 'login' %}">Login</a>
-   </nav>
-</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}My Website{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'learning/css/static.css' %}" />
+  </head>
+  <body>
+    <nav>
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'signup' %}">Sign Up</a>
+      <a href="{% url 'login' %}">Login</a>
+    </nav>
+
+    <main>{% block content %}{% endblock %}</main>
+  </body>
