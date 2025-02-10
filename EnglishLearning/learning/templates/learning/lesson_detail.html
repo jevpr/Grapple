@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>{{ lesson.title }}</h1>
+    <p>{{ lesson.content }}</p>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      window.addEventListener("scroll", function () {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          fetch("{% url 'mark_lesson_complete' lesson.id %}", {
+            method: "POST",
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },
+          })
+            .then((response) => console.log("Lesson marked as complete"))
+            .catch((error) => console.log("Error:", error));
+        }
+      });
+    });
+  </script>
+</html>

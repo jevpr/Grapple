@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ quiz.title }}</h1>
+<ul>
+  {% for question in quiz.questions.all %}
+    <li>
+      <p>{{ question.text }}</p>
+      <ul>
+        {% for option in question.options.all %}
+          <li>{{ option.text }}</li>
+        {% endfor %}
+      </ul>
+    </li>
+  {% endfor %}
+</ul>
+</body>
+</html>
