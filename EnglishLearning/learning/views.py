@@ -6,8 +6,14 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LessonForm
 
 
+def landing_view(request):
+    return render(request, 'landing.html')
+
 def home(request):
     return render(request, "base.html")
+
+def about_view(request):
+    return render(request, "about.html")
 
 
 def signup_view(request):
@@ -20,25 +26,21 @@ def signup_view(request):
         else:
             form = UserCreationForm()
         
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'registration/signup.html', {'form': form})
 
 
 def dashboard_view(request):
     return render(request, 'dashboard.html')
 
 def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')
-        
-        else:
-            form = AuthenticationForm()
-        
-        return render(request, 'registration/login.html', {'form': form})
+    form = AuthenticationForm(data=request.POST) if request.method == "POST" else AuthenticationForm()
 
+    if request.method == 'POST' and form.is_valid():
+        user = form.get_user()
+        login(request, user)
+        return redirect('home')
+    
+    return render(request, 'registration/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)

@@ -9,10 +9,13 @@
   </head>
   <body>
     <nav>
-      <a href="{% url 'home' %}">Home</a>
-      <a href="{% url 'signup' %}">Sign Up</a>
+      <a href="{% url 'landing' %}">
+        <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo" />
+      </a>
+      <a href="{% url 'about' %}">About</a>
       <a href="{% url 'login' %}">Login</a>
     </nav>
 
     <main>{% block content %}{% endblock %}</main>
   </body>
+</html>
