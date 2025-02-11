@@ -9,11 +9,11 @@
   </head>
   <body>
     <nav>
+      <a href="{% url 'about' %}">ABOUT</a>
+      <a href="{% url 'login' %}">LOG IN</a>
       <a href="{% url 'landing' %}">
         <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo" />
       </a>
-      <a href="{% url 'about' %}">About</a>
-      <a href="{% url 'login' %}">Login</a>
     </nav>
 
     <main>{% block content %}{% endblock %}</main>

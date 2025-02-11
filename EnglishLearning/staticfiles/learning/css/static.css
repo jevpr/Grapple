@@ -1,7 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Jersey+10&display=swap');
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --pink: #fdb0c8;
+  --cherry: #d00647;
+  --red: #85012c;
+  --black: black
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  color: black
+}
+
 body {
-  background-color: lightblue;
+  background-color: var(--white);
+  font-family: "Atkinson Hyperlegible Next", serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  height: 7rem;
+  gap: 2rem;
+  background-color: var(--pink);
+  font-family: "Jersey 10", serif !important;
+  color: var(--black);
+  font-size: 4rem;
+  padding-left: 2rem;
+}
+
+nav > img {
+  height: 4vh;
+
+}
+
+a {
+  text-decoration: none;
 }
 
 img {
-  height: 10vh;
+  height: 7rem;
 }

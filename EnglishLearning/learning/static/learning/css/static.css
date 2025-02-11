@@ -1,7 +1,89 @@
-body {
-  background-color: lightblue;
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Jersey+10&display=swap');
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --pink: #fdb0c8;
+  --cherry: #d00647;
+  --red: #85012c;
+  --black: black
 }
 
-img {
-  height: 7vh;
+* {
+  margin: 0;
+  padding: 0;
+  color: black
+}
+
+body {
+  background-color: var(--white);
+  font-family: "Atkinson Hyperlegible Next", serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: RIGHT;
+  height: AUTO;
+  gap: 2rem;
+  background-color: var(--pink);
+  font-family: "Jersey 10", serif !important;
+  color: var(--black);
+  font-size: clamp(30px, 13vw, 60px);
+  padding-right: 2rem;
+  padding-top: 0.5rem;
+}
+
+nav > a > img {
+  height: 4rem;
+
+}
+
+a {
+  text-decoration: none;
+}
+
+main {
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 60px);
+  margin: 1rem 0;
+}
+
+h2 {
+  font-size: clamp(20px, 4vw, 50px);
+  margin: 0.5rem 0;
+}
+
+p {
+  font-size: clamp(15px, 3.5vw, 40px);
+  margin: 0.25rem 0;
+}
+div.buttons{
+  margin-top: 1rem;
+}
+
+div.buttons > button{
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  background-color: var(--pink);
+  color: var(--black);
+   font-size: clamp(15px, 3.5vw, 40px);
+  border: none;
+  cursor: pointer;
+}
+
+.signup-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group{
+  margin-bottom: 15px;
+  text-align:right;
+  margin-right: 35vw;
 }

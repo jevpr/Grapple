@@ -17,16 +17,16 @@ def about_view(request):
 
 
 def signup_view(request):
-   if request.method == "POST":
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')
-        else:
-            form = UserCreationForm()
-        
-        return render(request, 'registration/signup.html', {'form': form})
+            return redirect('home')  # Redirect after successful signup
+    else:
+        form = UserCreationForm()  # ✅ Initialize the form correctly
+
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 def dashboard_view(request):
