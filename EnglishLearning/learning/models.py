@@ -6,6 +6,22 @@ from django_ckeditor_5.fields import CKEditor5Field
 # need to create a class for it in models.py?
 
 
+from django.db import models
+from django.contrib.auth.models import User
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.CharField(max_length=50, choices=[
+        ('avatar1.svg', 'Avatar 1'),
+        ('avatar2.svg', 'Avatar 2'),
+        ('avatar3.svg', 'Avatar 3')
+    ], default='avatar1.svg')
+
+    def __str__(self):
+        return self.user.username
+
+
+
 class Lesson (models.Model):
     title = models.CharField(max_length=200)
     content = CKEditor5Field()

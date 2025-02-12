@@ -3,7 +3,7 @@ from .models import Lesson, Quiz, Question, Option, UserProgress
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LessonForm
+from .forms import LessonForm, CustomUserCreationForm
 
 
 def landing_view(request):
@@ -16,18 +16,23 @@ def about_view(request):
     return render(request, "about.html")
 
 
+from .models import UserProfile
+
 def signup_view(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            avatar_choice = form.cleaned_data['avatar']
+            UserProfile.objects.create(user=user, avatar=avatar_choice)  # Create profile
             login(request, user)
-            return redirect('home')  # Redirect after successful signup
+            return redirect('home')
     else:
-        form = UserCreationForm()  # ✅ Initialize the form correctly
+        form = CustomUserCreationForm()
 
     return render(request, 'registration/signup.html', {'form': form})
 
+    
 
 def dashboard_view(request):
     return render(request, 'dashboard.html')

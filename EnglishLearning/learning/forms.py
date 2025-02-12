@@ -1,14 +1,30 @@
 from django import forms
-from .models import Lesson, Quiz
+from .models import Lesson
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-class LessonForm(forms.ModelForm):
-    quizzes = forms.ModelChoiceField(
-        queryset=Quiz.objects.all(),
-        required=False,
-        empty_label='--Select a quiz to insert--'
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+    )
+    avatar = forms.ChoiceField(
+        choices=[
+            ('avatar1.png', 'Avatar 1'),
+            ('avatar2.png', 'Avatar 2'),
+            ('avatar3.png', 'Avatar 3'), 
+            ('avatar4.png', 'Avatar 4'),
+            ('avatar5.png', 'Avatar 5'),
+        ],
+        widget=forms.RadioSelect
     )
 
-    class Meta: 
-        model = Lesson
-        fields= ['title', 'content']
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2', 'avatar']
 
+
+class LessonForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['title', 'content']
