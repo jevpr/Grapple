@@ -12,10 +12,12 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.CharField(max_length=50, choices=[
-        ('avatar1.svg', 'Avatar 1'),
-        ('avatar2.svg', 'Avatar 2'),
-        ('avatar3.svg', 'Avatar 3')
-    ], default='avatar1.svg')
+        ('avatar1.png', 'Avatar 1'),
+        ('avatar2.png', 'Avatar 2'),
+        ('avatar3.png', 'Avatar 3'), 
+        ('avatar4.png', 'Avatar 4'),
+        ('avatar5.png', 'Avatar 5'),
+    ], default='avatar1.png')
 
     def __str__(self):
         return self.user.username

@@ -23,8 +23,17 @@ def signup_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            avatar_choice = form.cleaned_data['avatar']
-            UserProfile.objects.create(user=user, avatar=avatar_choice)  # Create profile
+
+            avatar_choice = form.cleaned_data.get('avatar')
+            print(f"Avatar choice: {avatar_choice}")
+
+            valid_avatars = [choice[0] for choice in form.fields['avatar'].choices]
+            if avatar_choice in valid_avatars:
+                UserProfile.objects.create(user=user, avatar=avatar_choice)  # Create profile
+                print(f"Debug: UserProfile created for {user.username} with avatar {avatar_choice}")
+            else:
+                print(f"ERROR: Invalid avatar choice recieved: {avatar_choice}")   
+
             login(request, user)
             return redirect('home')
     else:

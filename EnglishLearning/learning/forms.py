@@ -4,9 +4,21 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+    )
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+    )
+    password1 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'})
+    )
+    password2 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'})
     )
     avatar = forms.ChoiceField(
         choices=[

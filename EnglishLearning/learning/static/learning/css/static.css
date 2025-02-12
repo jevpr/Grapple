@@ -77,21 +77,19 @@ div.buttons > button{
   cursor: pointer;
 }
 
-.signup-form{
-  display: flex;
-  flex-direction: column;
+div.signup-container {
+  border: solid;
 }
 
 .form-group{
-  margin-bottom: 15px;
-  text-align:right;
-  margin-right: 35vw;
+  
 }
 
 
 /* Avatar selection styling */
 .avatar-options {
     display: flex;
+    justify-content: center;
     gap: 10px;
     margin-top: 10px;
 }
