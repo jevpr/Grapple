@@ -1,5 +1,11 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Welcome, Content Creator!</h2>
-<p>Here you can manage lessons, quizzes, and more.</p>
+<h2>Welcome to Your Dashboard, {{ user.username }}!</h2>
+
+<div class="dashboard-buttons">
+    <a href="{% url 'view_lessons_quizzes' %}" class="btn">View Lessons & Quizzes</a>
+    <a href="{% url 'create_lesson' %}" class="btn">Create Lesson</a>
+    <a href="{% url 'create_quiz' %}" class="btn">Create Quiz</a>
+</div>
 {% endblock %}

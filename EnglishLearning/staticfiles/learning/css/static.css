@@ -49,12 +49,12 @@ main {
 }
 
 h1 {
-  font-size: clamp(30px, 5vw, 60px);
+  font-size: clamp(30px, 5vw, 50px);
   margin: 1rem 0;
 }
 
 h2 {
-  font-size: clamp(20px, 4vw, 50px);
+  font-size: clamp(20px, 4vw, 40px);
   margin: 0.5rem 0;
 }
 
@@ -66,9 +66,10 @@ div.buttons{
   margin-top: 1rem;
 }
 
-div.buttons > button{
+button, .btn{
   padding: 0.75rem 1.5rem;
   border-radius: 1rem;
+  font-family: "Jersey 10", serif !important;
   font-size: 1.5rem;
   background-color: var(--pink);
   color: var(--black);
@@ -77,9 +78,10 @@ div.buttons > button{
   cursor: pointer;
 }
 
+
 .signup-form {
   justify-self: center;
-  margin: 2rem 0;
+  margin-top: 2rem;
   font-family: "Jersey 10", serif !important;
   max-width: 40rem;
   
@@ -125,15 +127,4 @@ input.form-control{
 .avatar-options input[type="radio"]:checked + img {
     border-color: var(--cherry);
     box-shadow: 0px 0px 20px var(--cherry);
-}
-
-btn.sign-up{
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  font-size: 1.5rem;
-  background-color: var(--pink);
-  color: var(--black);
-  font-size: clamp(15px, 3.5vw, 40px);
-  border: none;
-  cursor: pointer;
 }

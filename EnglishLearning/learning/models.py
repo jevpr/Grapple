@@ -28,7 +28,8 @@ class Lesson (models.Model):
     title = models.CharField(max_length=200)
     content = CKEditor5Field()
     created_at = models.DateTimeField(auto_now_add=True)
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -36,6 +37,10 @@ class Lesson (models.Model):
 # Represents an entire quiz (a collection of questions)
 class Quiz(models.Model):
     title = models.CharField(max_length=200, default="Untitled Quiz")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # ✅ Link quiz to creator
+
     def __str__(self):
         return self.title
 

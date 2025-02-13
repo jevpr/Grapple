@@ -66,7 +66,7 @@ div.buttons{
   margin-top: 1rem;
 }
 
-button{
+button, .btn{
   padding: 0.75rem 1.5rem;
   border-radius: 1rem;
   font-family: "Jersey 10", serif !important;

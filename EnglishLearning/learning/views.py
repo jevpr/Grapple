@@ -3,9 +3,13 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
+from django.core.paginator import Paginator
 from .models import Lesson, Quiz, Question, Option, UserProgress, UserProfile
 from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
+
+#one problem with the code is that when I'm logged in as a content creator, if i do end up on the landing page
+#it has login in the nav bar, but shows the landing page html
 
 #Landing page
 def landing_view(request):
@@ -87,12 +91,56 @@ def is_student(user):
     return user.groups.filter(name='Students').exists()
 
 
-#Dashboards
+#Content Creator permissions
 @login_required
 @user_passes_test(is_content_creator)
 def creator_dashboard(request):
     return render(request, 'dashboard/creator_dashboard.html')
 
+@login_required
+@user_passes_test(is_content_creator)
+def view_lessons_quizzes(request):
+    return render(request, 'contentCreator/view_lessons_quizzes.html')
+
+@login_required
+@user_passes_test(is_content_creator)
+def create_lesson(request):
+    return render(request, 'contentCreator/create_lesson.html')
+
+@login_required
+@user_passes_test(is_content_creator)
+def create_quiz(request):
+    return render(request, 'contentCreator/create_quiz.html')
+
+
+#Lessons and quizzes, view and create
+def view_lessons_quizzes(request):
+    sort_lessons = request.GET.get("sort_lessons", "-updated_at")
+    lessons = Lesson.objects.filter(created_by=request.user).order_by(sort_lessons)
+
+    sort_quizzes = request.GET.get("sort_quizzes", "-updated_at")
+    quizzes = Quiz.objects.filter(created_by=request.user).order_by(sort_quizzes)
+
+    paginator_lessons = Paginator(lessons, 10)
+    page_number_lessons = request.GET.get('page_lessons')
+    lessons_page = paginator_lessons.get_page(page_number_lessons)
+
+    paginator_quizzes = Paginator(quizzes, 10)
+    page_number_quizzes = request.GET.get('page_quizzes')
+    quizzes_page = paginator_quizzes.get_page(page_number_quizzes)
+
+    return render(
+        request,
+        "contentCreator/view_lessons_quizzes.html",
+        {
+            "lessons": lessons_page,
+            "quizzes": quizzes_page,
+        },
+    )
+
+
+
+#Student permissions
 @login_required
 @user_passes_test(is_student)
 def student_dashboard(request):

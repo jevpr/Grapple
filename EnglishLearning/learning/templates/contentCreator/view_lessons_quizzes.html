@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Lessons & Quizzes</h2>
+
+<!-- Sorting Options -->
+<form method="get">
+    <label for="sort_lessons">Sort Lessons By:</label>
+    <select name="sort_lessons" id="sort_lessons" onchange="this.form.submit()">
+        <option value="-updated_at" {% if request.GET.sort_lessons == "-updated_at" %}selected{% endif %}>Recently Updated</option>
+        <option value="title" {% if request.GET.sort_lessons == "title" %}selected{% endif %}>Lesson Name</option>
+        <option value="-created_at" {% if request.GET.sort_lessons == "-created_at" %}selected{% endif %}>Newest First</option>
+    </select>
+
+    <label for="sort_quizzes">Sort Quizzes By:</label>
+    <select name="sort_quizzes" id="sort_quizzes" onchange="this.form.submit()">
+        <option value="-updated_at" {% if request.GET.sort_quizzes == "-updated_at" %}selected{% endif %}>Recently Updated</option>
+        <option value="title" {% if request.GET.sort_quizzes == "title" %}selected{% endif %}>Quiz Name</option>
+        <option value="-created_at" {% if request.GET.sort_quizzes == "-created_at" %}selected{% endif %}>Newest First</option>
+    </select>
+</form>
+
+<!-- Lessons Table -->
+<h3>Lessons</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Lesson Name</th>
+            <th>Created</th>
+            <th>Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lesson in lessons %}
+        <tr>
+            <td>{{ lesson.title }}</td>
+            <td>{{ lesson.created_at|date:"Y-m-d H:i" }}</td>
+            <td>{{ lesson.updated_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No lessons found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination for Lessons -->
+<div class="pagination">
+    {% if lessons.has_previous %}
+        <a href="?page_lessons={{ lessons.previous_page_number }}&sort_lessons={{ request.GET.sort_lessons }}">← Previous</a>
+    {% endif %}
+    <span>Page {{ lessons.number }} of {{ lessons.paginator.num_pages }}</span>
+    {% if lessons.has_next %}
+        <a href="?page_lessons={{ lessons.next_page_number }}&sort_lessons={{ request.GET.sort_lessons }}">Next →</a>
+    {% endif %}
+</div>
+
+<!-- Quizzes Table -->
+<h3>Quizzes</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Quiz Name</th>
+            <th>Created</th>
+            <th>Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for quiz in quizzes %}
+        <tr>
+            <td>{{ quiz.title }}</td>
+            <td>{{ quiz.created_at|date:"Y-m-d H:i" }}</td>
+            <td>{{ quiz.updated_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">No quizzes found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination for Quizzes -->
+<div class="pagination">
+    {% if quizzes.has_previous %}
+        <a href="?page_quizzes={{ quizzes.previous_page_number }}&sort_quizzes={{ request.GET.sort_quizzes }}">← Previous</a>
+    {% endif %}
+    <span>Page {{ quizzes.number }} of {{ quizzes.paginator.num_pages }}</span>
+    {% if quizzes.has_next %}
+        <a href="?page_quizzes={{ quizzes.next_page_number }}&sort_quizzes={{ request.GET.sort_quizzes }}">Next →</a>
+    {% endif %}
+</div>
+
+{% endblock %}
