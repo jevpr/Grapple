@@ -1,21 +1,40 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Website{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'learning/css/static.css' %}" />
-  </head>
-  <body>
-    <nav>
-      <a href="{% url 'about' %}">ABOUT</a>
-      <a href="{% url 'login' %}">LOG IN</a>
-      <a href="{% url 'landing' %}">
-        <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo" />
-      </a>
-    </nav>
+    <link rel="stylesheet" href="{% static 'learning/css/static.css' %}">
+</head>
+<body>
+
+    {% block navbar %}
+
+      <nav>
+        {% if user.is_authenticated %}
+          {% if user_group == "Content Creators" %}
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'creator_dashboard' %}">
+              <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
+            </a>
+          {% elif user_group == "Students" %}
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'student_dashboard' %}">
+              <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
+            </a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'about' %}">ABOUT</a>
+          <a href="{% url 'login' %}">LOG IN</a>
+          <a href="{% url 'landing' %}">
+            <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
+          </a>
+        {% endif %}
+      </nav>
+    {% endblock %}
 
     <main>{% block content %}{% endblock %}</main>
-  </body>
+
+</body>
 </html>

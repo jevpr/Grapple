@@ -9,7 +9,20 @@ from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
 #Landing page
 def landing_view(request):
-    return render(request, 'landing.html')
+    print(f"Debug: Request User = {request.user}")  # ✅ Debug print
+    print(f"Debug: Is Authenticated? {request.user.is_authenticated}")  # ✅ Debug print
+
+    user_group = None  # Default value for non-logged-in users
+
+    if request.user.is_authenticated:
+        if request.user.groups.filter(name="Content Creators").exists():
+            user_group = "Content Creators"
+        elif request.user.groups.filter(name="Students").exists():
+            user_group = "Students"
+
+    return render(request, 'landing.html', {'user_group': user_group})
+
+
 
 
 #About page
@@ -33,7 +46,7 @@ def signup_view(request):
                 print(f"ERROR: Invalid avatar choice recieved: {avatar_choice}")   
 
             login(request, user)
-            
+
             return redirect('student_dashboard')  # Redirect to student dashboard by default
     else:
         form = CustomUserCreationForm()
