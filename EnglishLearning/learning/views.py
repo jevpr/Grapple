@@ -1,23 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Lesson, Quiz, Question, Option, UserProgress
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LessonForm, CustomUserCreationForm
+from django.contrib.auth.models import Group
+from .models import Lesson, Quiz, Question, Option, UserProgress, UserProfile
+from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
 
+#Landing page
 def landing_view(request):
     return render(request, 'landing.html')
 
-def home(request):
-    return render(request, "base.html")
 
+#About page
 def about_view(request):
     return render(request, "about.html")
 
-
-from .models import UserProfile
-
+#Signup page
 def signup_view(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -25,7 +24,6 @@ def signup_view(request):
             user = form.save()
 
             avatar_choice = form.cleaned_data.get('avatar')
-            print(f"Avatar choice: {avatar_choice}")
 
             valid_avatars = [choice[0] for choice in form.fields['avatar'].choices]
             if avatar_choice in valid_avatars:
@@ -35,59 +33,57 @@ def signup_view(request):
                 print(f"ERROR: Invalid avatar choice recieved: {avatar_choice}")   
 
             login(request, user)
-            return redirect('home')
+            
+            return redirect('student_dashboard')  # Redirect to student dashboard by default
     else:
         form = CustomUserCreationForm()
 
     return render(request, 'registration/signup.html', {'form': form})
 
-    
 
-def dashboard_view(request):
-    return render(request, 'dashboard.html')
-
+#Login page with redirection based on role
 def login_view(request):
-    form = AuthenticationForm(data=request.POST) if request.method == "POST" else AuthenticationForm()
+    form = CustomLoginForm(data=request.POST) if request.method == "POST" else CustomLoginForm()
 
     if request.method == 'POST' and form.is_valid():
         user = form.get_user()
         login(request, user)
-        return redirect('home')
-    
-    return render(request, 'registration/login.html', {'form': form})
 
+        if user.groups.filter(name='Content Creators').exists():
+            return redirect('creator_dashboard')  
+        elif user.groups.filter(name='Students').exists():
+            return redirect('student_dashboard')  
+        else:
+            return redirect('landing')
+
+    return render(request, 'registration/login.html', {'form': form})
+#Need to create an option for when the user doesn't exist in the database.
+
+
+#Logout view
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('landing')
 
 
-
+#Group check functions
 def is_content_creator(user):
     return user.groups.filter(name='Content Creators').exists()
 
+def is_student(user):
+    return user.groups.filter(name='Students').exists()
+
+
+#Dashboards
+@login_required
 @user_passes_test(is_content_creator)
-def create_lesson(request):
-    if request.method == "POST":
-        form = LessonForm(request.POST)
-        if form.is_valid():
-            lesson = form.save(commit=False)
-            quiz = form.cleaned_data.get('quizzes')
-            if quiz:
-                lesson.content += f"\n\n{{quiz_{quiz.id}}}"
-            lesson.save()
-            return redirect('lesson_detail', lesson_id=lesson.id)
-    else:
-        form = LessonForm()
+def creator_dashboard(request):
+    return render(request, 'dashboard/creator_dashboard.html')
 
-    return render(request, 'learning/create_lesson.html', {'form': form})
-
-def lesson_detail(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-    return render(request, 'learning/lesson_detail.html', {'lesson': lesson})
-
-def quiz_detail(request, quiz_id):
-    quiz = get_object_or_404(Quiz, id=quiz_id)
-    return render(request, 'learning/quiz_detail.html', {'quiz': quiz})
+@login_required
+@user_passes_test(is_student)
+def student_dashboard(request):
+    return render(request, 'dashboard/student_dashboard.html')
 
 
 

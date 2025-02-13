@@ -15,7 +15,7 @@
                   <label>Choose an Avatar:</label>
                   <div class="avatar-options">
                      {% for choice in field.field.choices %}
-                        <label>
+                        <label class="avatar-label">
                            <input type="radio" name="{{ field.name }}" value="{{ choice.0 }}">
                            <img src="{% get_static_prefix %}learning/images/{{ choice.0 }}" alt="Avatar">
                         </label>
@@ -34,11 +34,7 @@
             </div>
          {% endfor %}
 
-         <button type="submit" class="btn">Sign Up</button>
+         <button type="submit" class="signup">Sign Up</button>
       </form>
-
-      <p class="login-link">
-         Already have an account? <a href="{% url 'login' %}">Log in</a>
-      </p>
    </div>
 {% endblock %}

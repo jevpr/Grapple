@@ -1,24 +1,36 @@
 from django import forms
 from .models import Lesson
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         required=True,
-        widget=forms.TextInput(attrs={'placeholder': 'Username'})
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Username',
+            'class': 'form-control'
+            })
     )
     email = forms.EmailField(
         required=True,
-        widget=forms.EmailInput(attrs={'placeholder': 'Email'})
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Email',
+            'class': 'form-control'
+            })
     )
     password1 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={'placeholder': 'Enter Password'})
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter Password',
+            'class': 'form-control'
+            })
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password'})
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Confirm Password',
+            'class': 'form-control'
+            })
     )
     avatar = forms.ChoiceField(
         choices=[
@@ -40,3 +52,20 @@ class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['title', 'content']
+
+
+class CustomLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Username',
+            'class': 'form-control'
+        })
+    )
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Enter Password',
+            'class': 'form-control'
+        })
+    )
