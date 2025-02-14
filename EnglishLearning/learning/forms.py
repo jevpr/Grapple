@@ -69,11 +69,23 @@ class CustomLoginForm(AuthenticationForm):
 
 #Creating a lesson
 class LessonForm(forms.ModelForm):
-    content = forms.CharField(widget=CKEditor5Widget(config_name="default"))  # ✅ Use CKEditor5
+    content = forms.CharField(
+        widget=CKEditor5Widget(config_name="default"),  # ✅ Apply CKEditor
+        required=True
+    )
 
     class Meta:
         model = Lesson
         fields = ["title", "content"]
         widgets = {
-            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Lesson Title"}),
+            "title": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Lesson Title",  # ✅ Already has a placeholder
+            }),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # ✅ Remove labels by setting them to empty strings
+        self.fields["title"].label = ""
+        self.fields["content"].label = ""

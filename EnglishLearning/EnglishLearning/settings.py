@@ -154,13 +154,15 @@ CKEDITOR_5_CONFIGS = {
             ],
             "shouldNotGroupWhenFull": True,  # ✅ Forces wrapping instead of hiding items
         },
+        "placeholder": "Type your lesson content here...",  # ✅ Adds CKEditor placeholder
         "editorConfig": {
-            "contentsCss": "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",
-            "stylesSet": [
-                {"name": "Black Text", "element": "p", "styles": {"color": "black"}},
+             "contentsCss": [
+                "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",  # ✅ Default CKEditor styles
+                "/static/css/ckeditor_custom.css"  # ✅ Custom CSS override
             ],
         },
-        "height": "auto",  # ✅ Allows dynamic height
+        "width": "100%",  # ✅ Allow full-width scaling
+        "height": "auto",
         "minHeight": "40vh",
         "maxHeight": "80vh",
     }

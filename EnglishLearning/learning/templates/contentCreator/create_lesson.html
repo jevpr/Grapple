@@ -4,10 +4,18 @@
 {% block content %}
 <h2>Create a New Lesson</h2>
 
-<form method="POST">
+<form method="POST" class="lesson-form">
     {% csrf_token %}
-    {{ form.media }}  <!-- ✅ Loads CKEditor JavaScript -->
-    {{ form.as_p }}  <!-- ✅ Renders form fields -->
+    
+    <div class="form-group">
+        {{ form.title }}  <!-- ✅ Title input with placeholder -->
+    </div>
+
+    <div class="form-group">
+        {{ form.media }}  
+        {{ form.content }}  <!-- ✅ CKEditor with placeholder -->
+    </div>
+
     <button type="submit">Save Lesson</button>
 </form>
 
