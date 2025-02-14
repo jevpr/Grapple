@@ -1,28 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Your Lessons & Quizzes</h2>
-
-<!-- Sorting Options -->
-<form method="get">
-    <label for="sort_lessons">Sort Lessons By:</label>
-    <select name="sort_lessons" id="sort_lessons" onchange="this.form.submit()">
-        <option value="-updated_at" {% if request.GET.sort_lessons == "-updated_at" %}selected{% endif %}>Recently Updated</option>
-        <option value="title" {% if request.GET.sort_lessons == "title" %}selected{% endif %}>Lesson Name</option>
-        <option value="-created_at" {% if request.GET.sort_lessons == "-created_at" %}selected{% endif %}>Newest First</option>
-    </select>
-
-    <label for="sort_quizzes">Sort Quizzes By:</label>
-    <select name="sort_quizzes" id="sort_quizzes" onchange="this.form.submit()">
-        <option value="-updated_at" {% if request.GET.sort_quizzes == "-updated_at" %}selected{% endif %}>Recently Updated</option>
-        <option value="title" {% if request.GET.sort_quizzes == "title" %}selected{% endif %}>Quiz Name</option>
-        <option value="-created_at" {% if request.GET.sort_quizzes == "-created_at" %}selected{% endif %}>Newest First</option>
-    </select>
-</form>
+<h1>Your Lessons & Quizzes</h1>
 
 <!-- Lessons Table -->
-<h3>Lessons</h3>
-<table>
+<h2>Lessons</h2>
+<form method="get">
+    <label for="sort_lessons">Sort By:</label>
+    <select name="sort_lessons" id="sort_lessons" onchange="this.form.submit()">
+        <option value="-updated_at" {% if request.GET.sort_lessons == "-updated_at" %}selected{% endif %}>Updated Recently</option>
+        <option value="title" {% if request.GET.sort_lessons == "title" %}selected{% endif %}>Name</option>
+        <option value="-created_at" {% if request.GET.sort_lessons == "-created_at" %}selected{% endif %}>Created Recently</option>
+    </select>
+</form>
+<table class="lessonsQuizzes">
     <thead>
         <tr>
             <th>Lesson Name</th>
@@ -54,9 +45,18 @@
     {% endif %}
 </div>
 
+
 <!-- Quizzes Table -->
-<h3>Quizzes</h3>
-<table>
+<h2>Quizzes</h2>
+<form method="get">
+    <label for="sort_quizzes">Sort By:</label>
+    <select name="sort_quizzes" id="sort_quizzes" onchange="this.form.submit()">
+        <option value="-updated_at" {% if request.GET.sort_quizzes == "-updated_at" %}selected{% endif %}>Updated Recently</option>
+        <option value="title" {% if request.GET.sort_quizzes == "title" %}selected{% endif %}>Name</option>
+        <option value="-created_at" {% if request.GET.sort_quizzes == "-created_at" %}selected{% endif %}>Created Recently</option>
+    </select>
+</form>
+<table class="lessonsQuizzes">
     <thead>
         <tr>
             <th>Quiz Name</th>
