@@ -2,7 +2,9 @@ from django import forms
 from .models import Lesson
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django_ckeditor_5.widgets import CKEditor5Widget
 
+#Creating a new user
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(
         required=True,
@@ -48,12 +50,7 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2', 'avatar']
 
 
-class LessonForm(forms.ModelForm):
-    class Meta:
-        model = Lesson
-        fields = ['title', 'content']
-
-
+#Signing in a user
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(
         required=True,
@@ -69,3 +66,14 @@ class CustomLoginForm(AuthenticationForm):
             'class': 'form-control'
         })
     )
+
+#Creating a lesson
+class LessonForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditor5Widget("default"))
+
+    class Meta:
+        model = Lesson
+        fields = ["title", "content"]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Lesson Title"}),
+        }

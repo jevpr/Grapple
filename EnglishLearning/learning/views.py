@@ -149,3 +149,22 @@ def student_dashboard(request):
 
 
 
+#Creating a lesson
+@login_required
+@user_passes_test(is_content_creator)
+def create_lesson(request):
+    if request.method == "POST":
+        form = LessonForm(request.POST)
+        if form.is_valid():
+            lesson = form.save(commit=False)
+            lesson.created_by = request.user
+            lesson.save()
+            return redirect('view_lessons_quizzes')
+    else:
+        form = LessonForm()
+
+    return render(request, 'contentCreator/create_lesson.html', {'form': form})
+
+
+
+
