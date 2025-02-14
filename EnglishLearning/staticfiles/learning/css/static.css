@@ -15,9 +15,17 @@
   color: black
 }
 
+/*Base Styles*/
 body {
   background-color: var(--white);
   font-family: "Atkinson Hyperlegible Next", serif;
+}
+
+main{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 nav {
@@ -36,32 +44,27 @@ nav {
 
 nav > a > img {
   height: 4rem;
-
 }
 
 a {
   text-decoration: none;
 }
 
-main {
-  padding: 2rem;
-  text-align: left;
-}
-
 h1 {
   font-size: clamp(30px, 5vw, 50px);
-  margin: 1rem 0;
+  margin-top: 2rem;
 }
 
 h2 {
   font-size: clamp(20px, 4vw, 40px);
-  margin: 0.5rem 0;
+  margin-top: 1rem;
 }
 
 p {
-  font-size: clamp(15px, 3.5vw, 40px);
+  font-size: clamp(15px, 3.5vw, 20px);
   margin: 0.25rem 0;
 }
+
 div.buttons{
   margin-top: 1rem;
 }
@@ -76,6 +79,14 @@ button, .btn{
   font-size: clamp(15px, 3.5vw, 40px);
   border: none;
   cursor: pointer;
+}
+
+
+.login-form{
+  margin-top: 2rem;
+  font-family: "Jersey 10", serif !important;
+  width: 100%;
+  max-width: 40rem;
 }
 
 /*Sign up form*/
@@ -129,6 +140,62 @@ input.form-control{
     box-shadow: 0px 0px 20px var(--cherry);
 }
 
-table{
-  display: flex;
+
+/*Creator Dashboard*/
+
+.dashboard-buttons{
+  margin-top: 2rem;
 }
+
+/*Lessons and Quizzes Display*/
+
+table.lessonsQuizzes {
+  width: 100%;
+  max-width: 40rem;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+table.lessonsQuizzes > thead{
+  font-size: clamp(15px, 3.5vw, 25px);
+}
+
+table.lessonsQuizzes thead tr th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; 
+
+}
+
+table.lessonsQuizzes thead tr th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+table.lessonsQuizzes thead {
+    background-color: var(--pink); /* Keep background on the whole header */
+}
+
+table.lessonsQuizzes > thead > tr > th{
+  padding: 0.4rem;
+}
+
+table.lessonsQuizzes > tbody > tr > td{
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--black);
+}
+
+/*Lesson creation form*/
+.lesson-form input[type="text"] {
+    width: 100%;
+    max-width: 40rem;
+    padding: 1.5rem;     
+    font-size: clamp(20px, 4vw, 40px);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+
+
+

@@ -4,12 +4,4 @@
 {% block content %}
 <h2>Create a New Lesson</h2>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.media }} 
-    {{ form.as_p }} 
-    <button type="submit">Save Lesson</button>
-</form>
-
-<a href="{% url 'view_lessons_quizzes' %}">← Back to Lessons</a>
 {% endblock %}

@@ -113,7 +113,7 @@ def create_quiz(request):
     return render(request, 'contentCreator/create_quiz.html')
 
 
-#Lessons and quizzes, view and create
+#Lessons and quizzes, view lists
 def view_lessons_quizzes(request):
     sort_lessons = request.GET.get("sort_lessons", "-updated_at")
     lessons = Lesson.objects.filter(created_by=request.user).order_by(sort_lessons)

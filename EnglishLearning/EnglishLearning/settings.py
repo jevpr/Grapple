@@ -119,9 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-
+STATIC_URL = "/static/"
 STATICFILES_DIRS = []
+
 
 
 
@@ -138,27 +138,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-CKEDITOR_5_CONFIGS = {
-    "default": {
-        "language": "en",
-        "toolbar": [
-            "heading", "|",
-            "bold", "italic", "underline", "strikethrough", "|",
-            "blockQuote", "codeBlock", "|",
-            "bulletedList", "numberedList", "|",
-            "link", "insertTable", "mediaEmbed", "|",
-            "undo", "redo", "|",
-            "alignment", "fontSize", "fontColor", "highlight", "|",
-            "imageUpload", "imageStyle:full", "imageStyle:side", "|",
-            "math", "specialCharacters"
-        ],
-        "editorConfig": {
-            "contentsCss": "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",
-            "stylesSet": [
-                {"name": "Black Text", "element": "p", "styles": {"color": "black"}},
-            ],
-        },
-    }
-}
