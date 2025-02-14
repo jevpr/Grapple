@@ -2,27 +2,14 @@
 {% load static %}
 
 {% block content %}
-<head>
-    <link rel="stylesheet" href="{% static '/ckeditor/style.css' %}">
-</head>
-<body>
+<h2>Create a New Lesson</h2>
 
-    <textarea id="editor"></textarea>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.media }}  <!-- ✅ Loads CKEditor JavaScript -->
+    {{ form.as_p }}  <!-- ✅ Renders form fields -->
+    <button type="submit">Save Lesson</button>
+</form>
 
-    <!-- Load CKEditor as a module -->
-    <script type="module" src="{% static 'ckeditor/main.js' %}"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (typeof ClassicEditor !== "undefined") {
-                ClassicEditor
-                    .create(document.querySelector('#editor'))
-                    .catch(error => console.error(error));
-            } else {
-                console.error("CKEditor script did not load.");
-            }
-        });
-    </script>
-
-</body>
+<a href="{% url 'view_lessons_quizzes' %}">← Back to Lessons</a>
 {% endblock %}

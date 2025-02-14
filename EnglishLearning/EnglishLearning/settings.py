@@ -121,11 +121,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Ensure the STATICFILES_DIRS includes your existing static directory
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "learning", "static"),
-]
-
 # Define where static files will be collected (for production)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -141,3 +136,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "language": "en",
+        "toolbar": {
+            "items": [
+                "heading", "|",
+                "bold", "italic", "underline", "strikethrough", "|",
+                "blockQuote", "codeBlock", "|",
+                "bulletedList", "numberedList", "|",
+                "link", "insertTable", "mediaEmbed", "|",
+                "undo", "redo", "|",
+                "alignment", "fontSize", "fontColor", "highlight", "|",
+                "imageUpload", "imageStyle:full", "imageStyle:side", "|",
+                "math", "specialCharacters"
+            ],
+            "shouldNotGroupWhenFull": True,  # ✅ Forces wrapping instead of hiding items
+        },
+        "editorConfig": {
+            "contentsCss": "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",
+            "stylesSet": [
+                {"name": "Black Text", "element": "p", "styles": {"color": "black"}},
+            ],
+        },
+        "height": "auto",  # ✅ Allows dynamic height
+        "minHeight": "40vh",
+        "maxHeight": "80vh",
+    }
+}
+
+
+

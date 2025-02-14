@@ -69,9 +69,11 @@ class CustomLoginForm(AuthenticationForm):
 
 #Creating a lesson
 class LessonForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditor5Widget(config_name="default"))  # ✅ Use CKEditor5
+
     class Meta:
         model = Lesson
-        fields = ['title', 'content']
+        fields = ["title", "content"]
         widgets = {
-            'content': forms.Textarea(attrs={'class': 'editor'})
+            "title": forms.TextInput(attrs={"class": "form-control", "placeholder": "Lesson Title"}),
         }

@@ -196,6 +196,24 @@ table.lessonsQuizzes > tbody > tr > td{
     box-sizing: border-box;
 }
 
+.lesson-form .ck-editor .ck-toolbar {
+    display: flex;
+    flex-wrap: wrap; /* ✅ Ensures items wrap naturally when space is limited */
+    justify-content: center; /* ✅ Centers toolbar buttons */
+    gap: 5px; /* ✅ Adds spacing between toolbar items */
+    padding: 10px; /* ✅ Gives toolbar better spacing */
+}
+
+/* Ensure CKEditor resizes fluidly */
+.lesson-form .ck-editor__editable {
+    width: 90%; 
+    max-width: 40px;
+    min-height: 200px;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
 
 
 
