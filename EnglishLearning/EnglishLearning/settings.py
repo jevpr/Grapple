@@ -119,13 +119,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = []
+STATIC_URL = '/static/'
 
+# Ensure the STATICFILES_DIRS includes your existing static directory
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "learning", "static"),
+]
 
-
-
+# Define where static files will be collected (for production)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

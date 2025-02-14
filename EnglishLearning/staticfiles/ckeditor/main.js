@@ -81,10 +81,8 @@ import 'ckeditor5/ckeditor5.css';
 
 import './style.css';
 
-/**
- * Create a free account with a trial: https://portal.ckeditor.com/checkout?plan=free
- */
-const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
+const LICENSE_KEY =
+	'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA3ODcxOTksImp0aSI6IjNkMmExYjFiLTFmMDktNDI1OC1hOGNhLWZkNWU1ZGU2MWIwNiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjE3NjUyYTlkIn0.OcQEY2yHhuqqW0KWIK7lJBVir5oo_JuptxW0MxfidcyvWfWY1hLzg5mGTtS9_UphnFRINCEWTCfSqf-qMFLt3Q';
 
 const editorConfig = {
 	toolbar: {

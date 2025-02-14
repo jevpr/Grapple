@@ -22,7 +22,15 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Lesson(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
 
 # Represents an entire quiz (a collection of questions)
 class Quiz(models.Model):
@@ -64,4 +72,3 @@ class UserProgress(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.lesson or self.quiz} - Score: {self.score}"
     
-

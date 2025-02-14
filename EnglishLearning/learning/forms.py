@@ -68,4 +68,10 @@ class CustomLoginForm(AuthenticationForm):
     )
 
 #Creating a lesson
-
+class LessonForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['title', 'content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'editor'})
+        }

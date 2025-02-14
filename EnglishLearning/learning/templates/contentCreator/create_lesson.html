@@ -2,6 +2,27 @@
 {% load static %}
 
 {% block content %}
-<h2>Create a New Lesson</h2>
+<head>
+    <link rel="stylesheet" href="{% static '/ckeditor/style.css' %}">
+</head>
+<body>
 
+    <textarea id="editor"></textarea>
+
+    <!-- Load CKEditor as a module -->
+    <script type="module" src="{% static 'ckeditor/main.js' %}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof ClassicEditor !== "undefined") {
+                ClassicEditor
+                    .create(document.querySelector('#editor'))
+                    .catch(error => console.error(error));
+            } else {
+                console.error("CKEditor script did not load.");
+            }
+        });
+    </script>
+
+</body>
 {% endblock %}
