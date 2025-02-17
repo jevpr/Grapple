@@ -145,6 +145,9 @@ input.form-control{
 
 .dashboard-buttons{
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /*Lessons and Quizzes Display*/
@@ -196,24 +199,34 @@ table.lessonsQuizzes > tbody > tr > td{
     box-sizing: border-box;
 }
 
+
+
+/* Make CKEditor toolbar automatically wrap */
 .lesson-form .ck-editor .ck-toolbar {
     display: flex;
-    flex-wrap: wrap; /* ✅ Ensures items wrap naturally when space is limited */
-    justify-content: center; /* ✅ Centers toolbar buttons */
-    gap: 5px; /* ✅ Adds spacing between toolbar items */
-    padding: 10px; /* ✅ Gives toolbar better spacing */
+    flex-wrap: wrap; 
 }
 
 /* Ensure CKEditor resizes fluidly */
 .lesson-form .ck-editor__editable {
-    width: 90%; 
-    max-width: 40px;
+    max-width: 100%; 
     min-height: 200px;
     max-height: 60vh;
     overflow-y: auto;
     box-sizing: border-box;
+    font-size: 18px !important;  /* ✅ Adjust input font size */
+    font-family: "Atkinson Hyperlegible Next", serif !important;
 }
 
+
+.lesson-form .ck-editor__editable {
+        background-color: #d00647 !important; 
+}
+
+.lesson-form .ck-editor__editable ul, .lesson-form .ck-editor__editable ol {
+        padding-left: 20px !important;
+        margin-left: 0 !important;
+}
 
 
 

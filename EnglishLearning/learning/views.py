@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -139,6 +140,35 @@ def view_lessons_quizzes(request):
     )
 
 
+
+def view_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    return render(request, 'contentCreator/view_lesson.html', {'lesson': lesson})
+
+
+def edit_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    if request.method == "POST":
+        form = LessonForm(request.POST, instance=lesson)
+        if form.is_valid():
+            form.save()
+            return redirect('view_lessons_quizzes')
+    else:
+        form = LessonForm(instance=lesson)
+
+    return render(request, 'contentCreator/create_lesson.html', {'form': form, 'lesson': lesson})
+
+
+def delete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    if request.method == "POST":
+        lesson.delete()
+        messages.success(request, f"Lesson '{lesson.title}' deleted successfully.")
+        return redirect('view_lessons_quizzes')
+    
+    return redirect('view_lessons_quizzes')
 
 #Student permissions
 @login_required

@@ -17,7 +17,11 @@ class UserProfileAdmin(admin.ModelAdmin):
     avatar_image.allow_tags = True
     avatar_image.short_description = 'Avatar'
 
-admin.site.register(Lesson)
+@admin.register(Lesson)
+class LessonAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'created_by', 'created_at', 'updated_at')
+    search_fields = ('title', 'created_by__username')
+
 admin.site.register(Quiz)
 admin.site.register(Question)
 admin.site.register(Option)

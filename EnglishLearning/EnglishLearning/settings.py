@@ -161,10 +161,11 @@ CKEDITOR_5_CONFIGS = {
                 "/static/css/ckeditor_custom.css"  # ✅ Custom CSS override
             ],
         },
-        "width": "100%",  # ✅ Allow full-width scaling
+        "max-width": "100%",  # ✅ Allow full-width scaling
         "height": "auto",
         "minHeight": "40vh",
         "maxHeight": "80vh",
+        "padding": "4rem",
     }
 }
 

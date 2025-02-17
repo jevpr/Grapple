@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ lesson.title }}{% endblock %}  <!-- ✅ Dynamic Tab Title -->
+
+{% block content %}
+    <h1>{{ lesson.title }}</h1>  <!-- ✅ Lesson Title as H1 -->
+
+    <div class="lesson-content">
+        {{ lesson.content|safe }}  <!-- ✅ Render CKEditor Content Properly -->
+    </div>
+
+    <a href="{% url 'view_lessons_quizzes' %}">← Back to Lessons</a>
+{% endblock %}

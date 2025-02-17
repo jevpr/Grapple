@@ -15,6 +15,9 @@ urlpatterns = [
     path('dashboard/creator/view/', views.view_lessons_quizzes, name='view_lessons_quizzes'),
     path('dashboard/creator/lesson/create/', views.create_lesson, name='create_lesson'),
     path('dashboard/creator/quiz/create/', views.create_quiz, name='create_quiz'),
+    path('dashboard/creator/lesson/<int:lesson_id>/', views.view_lesson, name='view_lesson'),
+    path('dashboard/creator/lesson/edit/<int:lesson_id>/', views.edit_lesson, name='edit_lesson'),
+    path('dashboard/creator/lesson/delete/<int:lesson_id>/', views.delete_lesson, name='delete_lesson'),
 
     #Student dashboard and actions
     path('dashboard/student/', views.student_dashboard, name='student_dashboard'),
