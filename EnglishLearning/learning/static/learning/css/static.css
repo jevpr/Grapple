@@ -110,13 +110,9 @@ input.form-control{
   display: flex;
   flex-direction: column;
   align-items: center;
-  align-content: center;
+  align-content: center !important;
   margin: 1rem 0;
   font-size: 1.75rem;
-}
-
-.form-group > * {
-  border: solid red;
 }
 
 /* Avatar selection styling */
@@ -192,21 +188,20 @@ table.lessonsQuizzes > tbody > tr > td{
 }
 
 /*Lesson creation form*/
-.lesson-form input[type="text"] {
+.lesson-form{
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 40rem;
+  max-width: 60rem;
   padding: 1.5rem;     
   font-size: clamp(20px, 4vw, 40px); 
-  border: 2px solid var(--black); 
-  border-radius: 8px;
   box-sizing: border-box;
 }
 
-.lesson-form > * {
-  border: solid;
+.lesson-form input[type="text"] {
+  border: 2px solid var(--black); 
+  border-radius: 8px;
 }
 
 
@@ -220,7 +215,7 @@ table.lessonsQuizzes > tbody > tr > td{
 .tag-label {
   font-size: 1rem;
   padding: 8px 15px;
-  border: 1px solid #ccc;
+  border: 2px solid var(--pink);
   border-radius: 20px;
   cursor: pointer;
   background-color: white;
@@ -236,9 +231,9 @@ table.lessonsQuizzes > tbody > tr > td{
 }
 
 /* Make CKEditor toolbar automatically wrap */
-.lesson-form .ck-editor .ck-toolbar {
-    display: flex;
-    flex-wrap: wrap; 
+.ck-toolbar__items {
+  display: flex;
+  justify-content: center;
 }
 
 /* Ensure CKEditor resizes fluidly */

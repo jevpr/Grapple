@@ -69,11 +69,10 @@ div.buttons{
   margin-top: 1rem;
 }
 
-button, .btn{
+.btn{
   padding: 0.75rem 1.5rem;
   border-radius: 1rem;
   font-family: "Jersey 10", serif !important;
-  font-size: 1.5rem;
   background-color: var(--pink);
   color: var(--black);
   font-size: clamp(15px, 3.5vw, 40px);
@@ -111,10 +110,10 @@ input.form-control{
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center !important;
   margin: 1rem 0;
   font-size: 1.75rem;
 }
-
 
 /* Avatar selection styling */
 .avatar-options {
@@ -189,44 +188,78 @@ table.lessonsQuizzes > tbody > tr > td{
 }
 
 /*Lesson creation form*/
+.lesson-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 60rem;
+  padding: 1.5rem;     
+  font-size: clamp(20px, 4vw, 40px); 
+  box-sizing: border-box;
+}
+
 .lesson-form input[type="text"] {
-    width: 100%;
-    max-width: 40rem;
-    padding: 1.5rem;     
-    font-size: clamp(20px, 4vw, 40px);
-    border: 2px solid var(--black);
-    border-radius: 8px;
-    box-sizing: border-box;
+  border: 2px solid var(--black); 
+  border-radius: 8px;
 }
 
 
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+.tag-label {
+  font-size: 1rem;
+  padding: 8px 15px;
+  border: 2px solid var(--pink);
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.tag-checkbox {
+  display: none; /* Hide the actual checkbox */
+}
+
+.tag-label.selected {
+  background-color: pink; /* Change to pink when selected */
+}
 
 /* Make CKEditor toolbar automatically wrap */
-.lesson-form .ck-editor .ck-toolbar {
-    display: flex;
-    flex-wrap: wrap; 
+.ck-toolbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; 
 }
 
 /* Ensure CKEditor resizes fluidly */
 .lesson-form .ck-editor__editable {
-    max-width: 100%; 
-    min-height: 200px;
-    max-height: 60vh;
-    overflow-y: auto;
-    box-sizing: border-box;
-    font-size: 18px !important;  /* ✅ Adjust input font size */
-    font-family: "Atkinson Hyperlegible Next", serif !important;
+  max-width: 70rem;
+  min-height: 200px;
+  max-height: 60vh;
+  box-sizing: border-box;
+  font-size: 18px !important;  /* ✅ Adjust input font size */
+  font-family: "Atkinson Hyperlegible Next", serif !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important; /* Newer property to ensure breaking */
+  white-space: normal !important; /* Prevents text from staying in one line */
 }
 
-
-.lesson-form .ck-editor__editable {
-        background-color: #d00647 !important; 
-}
 
 .lesson-form .ck-editor__editable ul, .lesson-form .ck-editor__editable ol {
-        padding-left: 20px !important;
-        margin-left: 0 !important;
+  padding-left: 20px !important;
+  margin-left: 0 !important;
 }
 
-
-
+button.delete-button {
+  background: none !important;
+  cursor: pointer;
+  padding: none !important;
+  font-size: 1rem;
+  border: none;
+}
