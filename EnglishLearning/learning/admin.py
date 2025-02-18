@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.templatetags.static import static
-from .models import Lesson, Quiz, Question, Option, UserProgress, UserProfile
+from .models import Lesson, Tag, Quiz, Question, Option, UserProgress, UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -19,9 +19,15 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'created_by', 'created_at', 'updated_at')
+    list_display = ('id', 'title', 'created_by', 'created_at', 'updated_at', 'display_tags')
     search_fields = ('title', 'created_by__username')
 
+    def display_tags(self, obj):
+        return ', '.join(tag.name for tag in obj.tags.all())
+    
+    display_tags.short_description = 'Tags'
+
+admin.site.register(Tag)
 admin.site.register(Quiz)
 admin.site.register(Question)
 admin.site.register(Option)

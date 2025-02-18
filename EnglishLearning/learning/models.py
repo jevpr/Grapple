@@ -22,12 +22,24 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Lesson(models.Model):
     title = models.CharField(max_length=255)
     content = CKEditor5Field(null=True, blank=True, config_name='extends')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    tags = models.ManyToManyField(Tag, related_name='lessons', blank=True)
+
+
 
     def __str__(self):
         return self.title

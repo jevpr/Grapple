@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block content %}
 <h2>Create and Edit Your Lessons</h2>
 
@@ -12,6 +13,17 @@
     </div>
 
     <div class="form-group">
+        <div class="tag-container">
+            {% for tag in form.tags.field.queryset %}
+                <label class="tag-label">
+                    <input type="checkbox" name="tags" value="{{ tag.id }}" class="tag-checkbox">
+                    {{ tag.name }}
+                </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
         {{ form.media }}  
         {{ form.content }}  <!-- ✅ CKEditor with placeholder -->
     </div>
@@ -20,4 +32,27 @@
 </form>
 
 <a href="{% url 'view_lessons_quizzes' %}">← Back to Lessons</a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".tag-checkbox").forEach(checkbox => {
+            let label = checkbox.closest(".tag-label");
+
+            // Set initial state (if already checked in edit mode)
+            if (checkbox.checked) {
+                label.classList.add("selected");
+            }
+
+            // Toggle selection on change
+            checkbox.addEventListener("change", function() {
+                if (checkbox.checked) {
+                    label.classList.add("selected");
+                } else {
+                    label.classList.remove("selected");
+                }
+            });
+        });
+    });
+</script>
+
 {% endblock %}

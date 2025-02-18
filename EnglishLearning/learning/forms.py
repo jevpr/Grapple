@@ -1,5 +1,5 @@
 from django import forms
-from .models import Lesson
+from .models import Lesson, Tag
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django_ckeditor_5.widgets import CKEditor5Widget
@@ -69,6 +69,12 @@ class CustomLoginForm(AuthenticationForm):
 
 #Creating a lesson
 class LessonForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
     content = forms.CharField(
         widget=CKEditor5Widget(config_name="default"),  # ✅ Apply CKEditor
         required=True
@@ -76,7 +82,7 @@ class LessonForm(forms.ModelForm):
 
     class Meta:
         model = Lesson
-        fields = ["title", "content"]
+        fields = ["title", "tags", "content"]
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
