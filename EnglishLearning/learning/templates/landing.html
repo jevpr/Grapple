@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Welcome to  Grapple!{% endblock %}
 
@@ -10,9 +11,57 @@
       <button class="btn"><a href="{% url 'signup' %}">Sign Up</a></button>
     </div>
   </div>
-  
-  <div class="langing-container">
 
-  </div>
+<h3>Check out some of our latest materials: </h3>
+<div class="grammar-lessons">
+    {% for data in grammar_lessons %}
+        <div class="lesson-item">
+            <div class="lesson-image">
+              <img src="{% static 'learning/images/grammar.png' %}" alt="Logo">
+            </div>
+            <div class="lesson-content">
+                <h4>{{ data.lesson.title }}</h4>
+                <p>{{ data.preview }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>No recent grammar lessons available.</p>
+    {% endfor %}
+</div>
+<style>
+    .grammar-lessons {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
+    .lesson-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    .lesson-image img {
+        width: 120px; /* Adjust image size */
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    .lesson-content {
+        flex-grow: 1;
+    }
+
+    .lesson-content h4 {
+        margin: 0 0 5px;
+    }
+
+    .lesson-content p {
+        margin: 0;
+    }
+</style>
 {% endblock %}

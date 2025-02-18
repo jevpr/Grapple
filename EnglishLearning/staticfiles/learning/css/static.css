@@ -231,10 +231,9 @@ table.lessonsQuizzes > tbody > tr > td{
 }
 
 /* Make CKEditor toolbar automatically wrap */
-.ck-toolbar {
+.ck-toolbar__items {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; 
 }
 
 /* Ensure CKEditor resizes fluidly */

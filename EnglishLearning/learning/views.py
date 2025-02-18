@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.html import strip_tags
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.core.paginator import Paginator
-from .models import Lesson, Quiz, Question, Option, UserProgress, UserProfile
+from .models import Lesson, Quiz, Tag, Question, Option, UserProgress, UserProfile
 from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
 
@@ -14,9 +15,6 @@ from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
 #Landing page
 def landing_view(request):
-    print(f"Debug: Request User = {request.user}")  # ✅ Debug print
-    print(f"Debug: Is Authenticated? {request.user.is_authenticated}")  # ✅ Debug print
-
     user_group = None  # Default value for non-logged-in users
 
     if request.user.is_authenticated:
@@ -24,8 +22,21 @@ def landing_view(request):
             user_group = "Content Creators"
         elif request.user.groups.filter(name="Students").exists():
             user_group = "Students"
+    
+    # Fetch the latest lessons for specific tags
+    grammar_tag = Tag.objects.filter(name="Grammar").first()
+    grammar_lessons = []
+    
+    if grammar_tag:
+        lessons = Lesson.objects.filter(tags=grammar_tag).order_by('-created_at')[:3]  # Get 3 most recent lessons
+        for lesson in lessons:
+            preview = strip_tags(lesson.content)[:100] + "..." if lesson.content else "No content available."
+            grammar_lessons.append({"lesson": lesson, "preview": preview})
 
-    return render(request, 'landing.html', {'user_group': user_group})
+    return render(request, 'landing.html', {
+        'user_group': user_group,
+        'grammar_lessons': grammar_lessons
+    })
 
 
 
