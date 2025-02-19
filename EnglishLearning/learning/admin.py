@@ -28,6 +28,8 @@ class LessonAdmin(admin.ModelAdmin):
     
     display_tags.short_description = 'Tags'
 
+
+
 admin.site.register(Tag)
 admin.site.register(Quiz)
 admin.site.register(Question)

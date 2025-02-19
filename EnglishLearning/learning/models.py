@@ -31,7 +31,7 @@ class Lesson(models.Model):
         validators=[MinLengthValidator(200), MaxLengthValidator(300)],
         help_text="A short preview of the lesson (200-300 characters)",
     )
-    content = CKEditor5Field(null=True, blank=True, config_name='extends')
+    content = CKEditor5Field(null=True, blank=True, config_name='default')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
