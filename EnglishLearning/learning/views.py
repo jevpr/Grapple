@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.html import strip_tags
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -15,23 +14,21 @@ from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
 
 #Landing page
 def landing_view(request):
-    user_group = None  # Default value for non-logged-in users
+    user_group = (
+        "Content Creators" if request.user.groups.filter(name="Content Creators").exists() else
+        "Students" if request.user.groups.filter(name="Students").exists() else
+        None
+    )
+    
+    # Fetch latest 3 lessons for "Grammar"
+    grammar_lessons = Lesson.objects.filter(
+        tags__name="Grammar"
+    ).select_related('created_by').order_by('-created_at')[:3]
 
-    if request.user.is_authenticated:
-        if request.user.groups.filter(name="Content Creators").exists():
-            user_group = "Content Creators"
-        elif request.user.groups.filter(name="Students").exists():
-            user_group = "Students"
-    
-    # Fetch the latest lessons for specific tags
-    grammar_tag = Tag.objects.filter(name="Grammar").first()
-    grammar_lessons = []
-    
-    if grammar_tag:
-        lessons = Lesson.objects.filter(tags=grammar_tag).order_by('-created_at')[:3]  # Get 3 most recent lessons
-        for lesson in lessons:
-            preview = strip_tags(lesson.content)[:100] + "..." if lesson.content else "No content available."
-            grammar_lessons.append({"lesson": lesson, "preview": preview})
+    print("Debug: Retrieved grammar lessons:")
+    for lesson in grammar_lessons:
+        print(f"- {lesson.title} | Preview: {lesson.preview}")
+
 
     return render(request, 'landing.html', {
         'user_group': user_group,
@@ -39,7 +36,9 @@ def landing_view(request):
     })
 
 
-
+def preview_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    return render(request, 'preview_lesson.html', {'lesson': lesson})
 
 #About page
 def about_view(request):

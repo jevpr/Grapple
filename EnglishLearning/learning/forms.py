@@ -82,12 +82,17 @@ class LessonForm(forms.ModelForm):
 
     class Meta:
         model = Lesson
-        fields = ["title", "tags", "content"]
+        fields = ["title", "tags", "preview", "content"]
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Lesson Title",  # ✅ Already has a placeholder
             }),
+            "preview": forms.Textarea(attrs={
+                'rows': 3, 
+                'placeholder': 'Write a short preview (200-300 characters)...', 
+                'maxlength': 300,
+                }),
         }
 
     def __init__(self, *args, **kwargs):

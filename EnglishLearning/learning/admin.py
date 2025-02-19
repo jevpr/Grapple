@@ -19,8 +19,9 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'created_by', 'created_at', 'updated_at', 'display_tags')
+    list_display = ('id', 'title', 'created_by', 'created_at', 'updated_at', 'display_tags', 'preview')
     search_fields = ('title', 'created_by__username')
+    list_filter = ('created_at', 'tags')
 
     def display_tags(self, obj):
         return ', '.join(tag.name for tag in obj.tags.all())

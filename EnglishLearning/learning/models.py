@@ -1,13 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 
-#Do I need a User class here? Is it enough to just import User from django, or do I need to actually 
-# need to create a class for it in models.py?
-
-
-from django.db import models
-from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -32,6 +27,10 @@ class Tag(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=255)
+    preview = models.TextField(
+        validators=[MinLengthValidator(200), MaxLengthValidator(300)],
+        help_text="A short preview of the lesson (200-300 characters)",
+    )
     content = CKEditor5Field(null=True, blank=True, config_name='extends')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

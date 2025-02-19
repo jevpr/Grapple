@@ -26,6 +26,11 @@
     </div>
 
     <div class="form-group">
+        {{ form.preview }}
+        <p id="char-count"></p>  <!-- ✅ Live character counter -->
+    </div>
+
+    <div class="form-group">
         {{ form.media }}  
         {{ form.content }}  <!-- ✅ CKEditor with placeholder -->
     </div>
@@ -37,6 +42,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        // ✅ Handle tag selection logic
         document.querySelectorAll(".tag-checkbox").forEach(checkbox => {
             let label = checkbox.closest(".tag-label");
 
@@ -47,13 +53,31 @@
 
             // Toggle selection on change
             checkbox.addEventListener("change", function() {
-                if (checkbox.checked) {
-                    label.classList.add("selected");
-                } else {
-                    label.classList.remove("selected");
-                }
+                label.classList.toggle("selected", checkbox.checked);
             });
         });
+
+        // ✅ Handle live character counter for preview input
+        let previewInput = document.querySelector("#id_preview");
+        let charCount = document.createElement("p");
+        charCount.id = "char-count";
+        previewInput.parentNode.appendChild(charCount);  // ✅ Append counter below input
+
+        function updateCharCount() {
+            let currentLength = previewInput.value.length;
+            charCount.textContent = `${currentLength}/200 characters`;
+
+            if (currentLength < 200) {
+                charCount.style.color = "red";  // ✅ Warn if below min length
+            } else if (currentLength > 300) {
+                charCount.style.color = "red";  // ✅ Warn if exceeding max length
+            } else {
+                charCount.style.color = "green";  // ✅ Valid length
+            }
+        }
+
+        previewInput.addEventListener("input", updateCharCount);
+        updateCharCount();  // ✅ Initialize counter on page load
     });
 </script>
 

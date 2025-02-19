@@ -8,6 +8,8 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('about/', views.about_view, name='about'),
+    path('preview_lesson/<int:lesson_id>/', views.preview_lesson, name='preview_lesson'),
+
 
     #Content creator dashboard and actions
     path("ckeditor5/", include('django_ckeditor_5.urls')),
