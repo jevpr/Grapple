@@ -5,4 +5,20 @@
 
 <a href="{% url 'lesson_search' %}" class="btn">Find Lessons</a>
 
+<!-- ✅ Bookmarked Lessons Section -->
+{% if bookmarked_lessons %}
+    <h2>Your Bookmarked Lessons</h2>
+    <div class="lesson-grid">
+        {% for lesson in bookmarked_lessons %}
+            <div class="lesson-card">
+                <h3>{{ lesson.title }}</h3>
+                <p>{{ lesson.preview }}</p>
+                <a href="{% url 'lesson_view' lesson.id %}" class="btn btn-primary">View Lesson</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>You haven't bookmarked any lessons yet.</p>
+{% endif %}
+
 {% endblock %}

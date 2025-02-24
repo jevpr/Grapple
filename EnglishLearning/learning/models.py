@@ -44,6 +44,17 @@ class Lesson(models.Model):
         return self.title
     
 
+class BookmarkedLesson(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookmarked_lessons")
+    lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE, related_name="bookmarked_by_users")
+    created_at = models.DateTimeField(auto_now_add=True)  # ✅ Tracks when bookmarked
+
+    class Meta:
+        unique_together = ("user", "lesson")  # ✅ Prevent duplicate bookmarks
+
+    def __str__(self):
+        return f"{self.user.username} bookmarked {self.lesson.title}"
+
 class Comment(models.Model):
     """Public comments made by students on a lesson."""
     lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE, related_name="comments")

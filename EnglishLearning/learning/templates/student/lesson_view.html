@@ -4,7 +4,17 @@
 {% block title %}{{ lesson.title }}{% endblock %}
 
 {% block content %}
-    <h1>{{ lesson.title }}</h1>
+    <div class="lesson-header">
+        <h1>{{ lesson.title }}</h1>
+
+        <!-- ✅ Bookmark Icon in Top-Right -->
+        <div class="bookmark-container">
+            <i class="fa{% if is_bookmarked %}-solid{% else %}-regular{% endif %} fa-bookmark bookmark-icon"
+               data-lesson="{{ lesson.id }}"
+               style="color: #fdb0c8; cursor: pointer;">
+            </i>
+        </div>
+    </div>
 
     <div class="lesson-content">
         {{ lesson.content|safe }}
@@ -50,4 +60,31 @@
     {% endfor %}
 
     <a href="{% url 'lesson_search' %}">← Back to Lessons</a>
+
+    <!-- ✅ JavaScript for Bookmark Toggle -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const bookmarkIcon = document.querySelector(".bookmark-icon");
+
+        bookmarkIcon.addEventListener("click", function() {
+            const lessonId = this.dataset.lesson;
+
+            fetch(`/lesson/${lessonId}/bookmark/`, {
+                method: "POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.bookmarked) {
+                    this.classList.remove("fa-regular");
+                    this.classList.add("fa-solid");
+                } else {
+                    this.classList.remove("fa-solid");
+                    this.classList.add("fa-regular");
+                }
+            });
+        });
+    });
+    </script>
+
 {% endblock %}

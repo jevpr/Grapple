@@ -166,3 +166,22 @@ CKEDITOR_5_CONFIGS = {
 
 
 
+import django_heroku
+import dj_database_url
+import os
+
+# Configure PostgreSQL database (Heroku default)
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
+}
+
+# Security settings
+DEBUG = False
+ALLOWED_HOSTS = ['your-app-name.herokuapp.com']
+
+# Static files (Heroku uses WhiteNoise)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Activate Django-Heroku settings
+django_heroku.settings(locals())
