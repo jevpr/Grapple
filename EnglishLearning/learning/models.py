@@ -42,6 +42,37 @@ class Lesson(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Comment(models.Model):
+    """Public comments made by students on a lesson."""
+    lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} on {self.lesson.title}: {self.text[:30]}..."
+
+
+class Note(models.Model):
+    """Private notes that a student takes for themselves on a lesson."""
+    lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE, related_name="notes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s note on {self.lesson.title}"    
+
+
+
+
+
+
+
+
+
 
 # Represents an entire quiz (a collection of questions)
 class Quiz(models.Model):

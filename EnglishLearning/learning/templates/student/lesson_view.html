@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ lesson.title }}</h1>
+
+    <div class="lesson-content">
+        {{ lesson.content|safe }}
+    </div>
+
+    <hr>
+
+    <!-- Notes Section -->
+    <h3>Your Private Notes</h3>
+    <form method="POST" action="{% url 'add_note' lesson.id %}">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Write a private note..." required></textarea>
+        <button type="submit">Save Note</button>
+    </form>
+
+    {% for note in notes %}
+        <div class="note">
+            <p>{{ note.text }}</p>
+            <small>Added on {{ note.created_at }}</small>
+        </div>
+    {% empty %}
+        <p>No notes yet.</p>
+    {% endfor %}
+
+    <hr>
+
+    <!-- Comments Section -->
+    <h3>Discussion</h3>
+    <form method="POST" action="{% url 'add_comment' lesson.id %}">
+        {% csrf_token %}
+        <textarea name="text" placeholder="Leave a comment..." required></textarea>
+        <button type="submit">Comment</button>
+    </form>
+
+    {% for comment in comments %}
+        <div class="comment">
+            <strong>{{ comment.user.username }}</strong> said:
+            <p>{{ comment.text }}</p>
+            <small>Posted on {{ comment.created_at }}</small>
+        </div>
+    {% empty %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endfor %}
+
+    <a href="{% url 'lesson_search' %}">← Back to Lessons</a>
+{% endblock %}

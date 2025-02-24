@@ -1,108 +1,71 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.models import Group
 from django.core.paginator import Paginator
-from .models import Lesson, Quiz, Tag, Question, Option, UserProgress, UserProfile
+from django.db.models import Q
+from .models import Lesson, Quiz, Tag, Comment, Note, UserProfile
 from .forms import LessonForm, CustomUserCreationForm, CustomLoginForm
+import logging
 
+logger = logging.getLogger(__name__)
 
-#one problem with the code is that when I'm logged in as a content creator, if i do end up on the landing page
-#it has login in the nav bar, but shows the landing page html
+# Utility Functions
+def get_user_group(user):
+    """Returns the first group name of the user."""
+    return user.groups.values_list("name", flat=True).first()
 
-#Landing page
+# Public Views
 def landing_view(request):
-    user_group = (
-        "Content Creators" if request.user.groups.filter(name="Content Creators").exists() else
-        "Students" if request.user.groups.filter(name="Students").exists() else
-        None
-    )
-    
-    # Fetch latest 3 lessons for "Grammar"
-    grammar_lessons = Lesson.objects.filter(
-        tags__name="Grammar"
-    ).select_related('created_by').order_by('-created_at')[:3]
-
-    print("Debug: Retrieved grammar lessons:")
-    for lesson in grammar_lessons:
-        print(f"- {lesson.title} | Preview: {lesson.preview}")
-
-
-    return render(request, 'landing.html', {
-        'user_group': user_group,
-        'grammar_lessons': grammar_lessons
-    })
-
+    user_group = get_user_group(request.user) if request.user.is_authenticated else None
+    grammar_lessons = Lesson.objects.filter(tags__name="Grammar").select_related('created_by').order_by('-created_at')[:3]
+    logger.debug(f"Retrieved {len(grammar_lessons)} grammar lessons")
+    return render(request, 'landing.html', {'user_group': user_group, 'grammar_lessons': grammar_lessons})
 
 def preview_lesson(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
     return render(request, 'preview_lesson.html', {'lesson': lesson})
 
-#About page
 def about_view(request):
     return render(request, "about.html")
 
-#Signup page
 def signup_view(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-
             avatar_choice = form.cleaned_data.get('avatar')
-
-            valid_avatars = [choice[0] for choice in form.fields['avatar'].choices]
-            if avatar_choice in valid_avatars:
-                UserProfile.objects.create(user=user, avatar=avatar_choice)  # Create profile
-                print(f"Debug: UserProfile created for {user.username} with avatar {avatar_choice}")
-            else:
-                print(f"ERROR: Invalid avatar choice recieved: {avatar_choice}")   
-
+            if avatar_choice in dict(form.fields['avatar'].choices):
+                UserProfile.objects.create(user=user, avatar=avatar_choice)
+                logger.info(f"UserProfile created for {user.username} with avatar {avatar_choice}")
             login(request, user)
-
-            return redirect('student_dashboard')  # Redirect to student dashboard by default
+            return redirect('student_dashboard')
     else:
         form = CustomUserCreationForm()
-
     return render(request, 'registration/signup.html', {'form': form})
 
-
-#Login page with redirection based on role
 def login_view(request):
     form = CustomLoginForm(data=request.POST) if request.method == "POST" else CustomLoginForm()
-
     if request.method == 'POST' and form.is_valid():
         user = form.get_user()
         login(request, user)
-
         if user.groups.filter(name='Content Creators').exists():
             return redirect('creator_dashboard')  
-        elif user.groups.filter(name='Students').exists():
-            return redirect('student_dashboard')  
-        else:
-            return redirect('landing')
-
+        return redirect('student_dashboard')  
     return render(request, 'registration/login.html', {'form': form})
-#Need to create an option for when the user doesn't exist in the database.
 
-
-#Logout view
 def logout_view(request):
     logout(request)
     return redirect('landing')
 
-
-#Group check functions
+# Group Check Functions
 def is_content_creator(user):
     return user.groups.filter(name='Content Creators').exists()
 
 def is_student(user):
     return user.groups.filter(name='Students').exists()
 
-
-#Content Creator permissions
+# Content Creator Views
 @login_required
 @user_passes_test(is_content_creator)
 def creator_dashboard(request):
@@ -111,85 +74,12 @@ def creator_dashboard(request):
 @login_required
 @user_passes_test(is_content_creator)
 def view_lessons_quizzes(request):
-    return render(request, 'contentCreator/view_lessons_quizzes.html')
-
-@login_required
-@user_passes_test(is_content_creator)
-def create_lesson(request):
-    return render(request, 'contentCreator/create_lesson.html')
-
-@login_required
-@user_passes_test(is_content_creator)
-def create_quiz(request):
-    return render(request, 'contentCreator/create_quiz.html')
-
-
-#Lessons and quizzes, view lists
-def view_lessons_quizzes(request):
     sort_lessons = request.GET.get("sort_lessons", "-updated_at")
     lessons = Lesson.objects.filter(created_by=request.user).order_by(sort_lessons)
-
     sort_quizzes = request.GET.get("sort_quizzes", "-updated_at")
     quizzes = Quiz.objects.filter(created_by=request.user).order_by(sort_quizzes)
+    return render(request, "contentCreator/view_lessons_quizzes.html", {"lessons": lessons, "quizzes": quizzes})
 
-    paginator_lessons = Paginator(lessons, 10)
-    page_number_lessons = request.GET.get('page_lessons')
-    lessons_page = paginator_lessons.get_page(page_number_lessons)
-
-    paginator_quizzes = Paginator(quizzes, 10)
-    page_number_quizzes = request.GET.get('page_quizzes')
-    quizzes_page = paginator_quizzes.get_page(page_number_quizzes)
-
-    return render(
-        request,
-        "contentCreator/view_lessons_quizzes.html",
-        {
-            "lessons": lessons_page,
-            "quizzes": quizzes_page,
-        },
-    )
-
-
-
-def view_lesson(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-    return render(request, 'contentCreator/view_lesson.html', {'lesson': lesson})
-
-
-def edit_lesson(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-
-    if request.method == "POST":
-        form = LessonForm(request.POST, instance=lesson)
-        if form.is_valid():
-            form.save()
-            return redirect('view_lessons_quizzes')
-    else:
-        form = LessonForm(instance=lesson)
-
-    return render(request, 'contentCreator/create_lesson.html', {'form': form, 'lesson': lesson})
-
-
-def delete_lesson(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-
-    if request.method == "POST":
-        lesson.delete()
-        messages.success(request, f"Lesson '{lesson.title}' deleted successfully.")
-        return redirect('view_lessons_quizzes')
-    
-    return redirect('view_lessons_quizzes')
-
-#Student permissions
-@login_required
-@user_passes_test(is_student)
-def student_dashboard(request):
-    return render(request, 'dashboard/student_dashboard.html')
-
-
-
-
-#Creating a lesson
 @login_required
 @user_passes_test(is_content_creator)
 def create_lesson(request):
@@ -202,9 +92,79 @@ def create_lesson(request):
             return redirect('view_lessons_quizzes')
     else:
         form = LessonForm()
-
     return render(request, 'contentCreator/create_lesson.html', {'form': form})
 
+def view_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    return render(request, 'contentCreator/view_lesson.html', {'lesson': lesson})
 
+def edit_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    if request.method == "POST":
+        form = LessonForm(request.POST, instance=lesson)
+        if form.is_valid():
+            form.save()
+            return redirect('view_lessons_quizzes')
+    else:
+        form = LessonForm(instance=lesson)
+    return render(request, 'contentCreator/create_lesson.html', {'form': form, 'lesson': lesson})
 
+def delete_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    if request.method == "POST":
+        lesson.delete()
+        messages.success(request, f"Lesson '{lesson.title}' deleted successfully.")
+    return redirect('view_lessons_quizzes')
 
+# Student Views
+@login_required
+@user_passes_test(is_student)
+def student_dashboard(request):
+    return render(request, 'dashboard/student_dashboard.html')
+
+@login_required
+def lesson_search(request):
+    query = request.GET.get("q", "")
+    tag_filter = request.GET.getlist("tags")
+
+    lessons = Lesson.objects.all()
+
+    if query:
+        lessons = lessons.filter(
+            Q(title__icontains=query) | 
+            Q(preview__icontains=query) | 
+            Q(content__icontains=query)
+        )
+
+    if tag_filter:
+        lessons = lessons.filter(tags__id__in=tag_filter).distinct()
+
+    return render(request, "student/lesson_search.html", {
+        "lessons": lessons, 
+        "tags": Tag.objects.all(), 
+        "query": query, 
+        "selected_tags": tag_filter
+    })
+
+@login_required
+def lesson_view(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    return render(request, "student/lesson_view.html", {"lesson": lesson, "comments": lesson.comments.all(), "notes": Note.objects.filter(lesson=lesson, user=request.user)})
+
+@login_required
+def add_comment(request, lesson_id):
+    if request.method == "POST":
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        comment_text = request.POST.get("text", "").strip()
+        if comment_text:
+            Comment.objects.create(lesson=lesson, user=request.user, text=comment_text)
+    return redirect("lesson_view", lesson_id=lesson_id)
+
+@login_required
+def add_note(request, lesson_id):
+    if request.method == "POST":
+        lesson = get_object_or_404(Lesson, id=lesson_id)
+        note_text = request.POST.get("text", "").strip()
+        if note_text:
+            Note.objects.create(lesson=lesson, user=request.user, text=note_text)
+    return redirect("lesson_view", lesson_id=lesson_id)

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Search for Lessons</h2>
+
+<!-- Search Form -->
+<form method="GET" action="{% url 'lesson_search' %}" class="search-lessons">
+    <div class="search-bar">
+        <input type="text" name="q" placeholder="Search lessons..." value="{{ query }}" id="search-input">
+        <button type="submit" class="search-btn">
+            <i class="fa-solid fa-magnifying-glass" style="color: #fdb0c8;"></i>
+        </button>
+    </div>
+
+    <!-- Tag Filters -->
+    <div class="tag-container">
+        {% for tag in tags %}
+            <input type="checkbox" name="tags" value="{{ tag.id }}" id="tag-{{ tag.id }}"
+                   class="tag-checkbox"
+                   {% if tag.id|stringformat:"s" in selected_tags %}checked{% endif %}>
+            <label for="tag-{{ tag.id }}" class="tag-label {% if tag.id|stringformat:"s" in selected_tags %}selected{% endif %}">
+                {{ tag.name }}
+            </label>
+        {% endfor %}
+    </div>
+</form>
+
+
+<!-- Display Search Results -->
+{% if lessons %}
+    <div class="lesson-grid">
+        {% for lesson in lessons %}
+            <div class="lesson-card">
+                <h3>{{ lesson.title }}</h3>
+                <p>{{ lesson.preview }}</p>
+                <p><strong>Tags:</strong> 
+                    {% for tag in lesson.tags.all %}
+                        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <!-- ✅ View Lesson Button -->
+                <a href="{% url 'lesson_view' lesson.id %}" class="btn btn-primary">View Lesson</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No lessons found.</p>
+{% endif %}
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const tagLabels = document.querySelectorAll(".tag-label");
+    const form = document.querySelector(".search-lessons");
+
+    tagLabels.forEach(label => {
+        label.addEventListener("click", function() {
+            const checkbox = document.getElementById(this.getAttribute("for"));
+            checkbox.checked = !checkbox.checked;  // Toggle checkbox state
+            this.classList.toggle("selected", checkbox.checked);  // Toggle class
+            form.submit();  // ✅ Automatically submit the form on click
+        });
+    });
+});
+</script>
+
+
+{% endblock %}
