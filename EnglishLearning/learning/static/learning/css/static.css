@@ -22,6 +22,10 @@ body {
   font-family: "Atkinson Hyperlegible Next", serif;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 ::-webkit-scrollbar {
@@ -62,6 +66,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 70rem;
 }
 
 
