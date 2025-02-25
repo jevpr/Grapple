@@ -1,1 +1,1 @@
-web: gunicorn EnglishLearning.wsgi --log-file -
+web: gunicorn EnglishLearning.EnglishLearning.wsgi --log-file -
