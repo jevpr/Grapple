@@ -4,6 +4,7 @@
   --white: #ffffff;
   --black: #000000;
   --pink: #fdb0c8;
+  --lightpink: #FFE3EB;
   --cherry: #d00647;
   --red: #85012c;
   --black: black
@@ -19,16 +20,20 @@
 body {
   background-color: var(--white);
   font-family: "Atkinson Hyperlegible Next", serif;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-main{
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+::-webkit-scrollbar {
+    display: none; /* ✅ Hides scrollbar in WebKit browsers (Chrome, Safari) */
 }
+
 
 nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
   display: flex;
   align-items: center;
   justify-content: RIGHT;
@@ -38,17 +43,27 @@ nav {
   font-family: "Jersey 10", serif !important;
   color: var(--black);
   font-size: clamp(30px, 13vw, 60px);
-  padding-right: 2rem;
   padding-top: 0.5rem;
 }
 
+
 nav > a > img {
   height: 4rem;
+  margin-right: 2rem;
 }
 
 a {
   text-decoration: none;
+} 
+
+main {
+  margin-top: 5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 
 h1 {
   font-size: clamp(30px, 5vw, 50px);
@@ -75,12 +90,114 @@ div.buttons{
   font-family: "Jersey 10", serif !important;
   background-color: var(--pink);
   color: var(--black);
-  font-size: clamp(15px, 3.5vw, 40px);
+  font-size: clamp(25px, 3.5vw, 40px);
   border: none;
   cursor: pointer;
 }
 
+/*Landing page*/
 
+.grammar-lessons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 1rem;
+}
+
+.lesson-item {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  max-width: 60rem;
+  gap: 1rem; 
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.lesson-image img {
+  width: 10vw; /* Adjust image size */
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.lesson-preview {
+  flex-grow: 1;
+}
+
+.lesson-preview h4 {
+  margin: 0 0 5px;
+  text-align: left;
+}
+
+.lesson-preview p {
+  margin: 0;
+  text-align: left;
+}
+
+
+/*layout for lesson view and preview*/
+.lesson-content{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 90vw;
+  max-width: 60rem;
+  margin: 2rem;
+}
+
+.lesson-content > h3 {
+    font-size: clamp(20px, 4vw, 40px);
+    margin-bottom: 2rem;
+    position: relative;  /* ✅ Needed for absolute positioning */
+}
+
+.lesson-content > h3::after,
+.lesson-content > h3::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;  
+    background-color: currentColor;  
+}
+
+.lesson-content > h3::after {
+    bottom: -2px;  
+}
+
+.lesson-content > h3::before {
+    bottom: -8px;  
+}
+
+.lesson-content > h4 {
+  font-size: clamp(15px, 3.5vw, 25px);
+  margin-bottom: 1rem;
+}
+
+
+.lesson-content > ol, ul, ol li, ul li{
+  font-size: clamp(15px, 3.5vw, 20px);
+  margin-bottom: 1rem;
+  background-color: var(--lightpink);
+  list-style-position: outside;
+  padding-left: 2rem;
+  border-radius: 1rem;
+}
+
+.lesson-content > figure {
+  align-self: center;
+}
+
+figure > table > tbody > tr > td {
+  border: solid 1px var(--white);
+  background-color: var(--lightpink);
+  border-radius: 0.25rem;
+}
+
+
+/*Login form*/
 .login-form{
   margin-top: 2rem;
   font-family: "Jersey 10", serif !important;
@@ -97,6 +214,7 @@ div.buttons{
   
 }
 
+/*General form styling*/
 input.form-control{
   font-family: "Jersey 10", serif !important;
   height:2rem;
@@ -113,6 +231,7 @@ input.form-control{
   align-content: center !important;
   margin: 1rem 0;
   font-size: 1.75rem;
+  width: 100%;
 }
 
 /* Avatar selection styling */
@@ -141,7 +260,6 @@ input.form-control{
 
 
 /*Creator Dashboard*/
-
 .dashboard-buttons{
   margin-top: 2rem;
   display: flex;
@@ -150,7 +268,6 @@ input.form-control{
 }
 
 /*Lessons and Quizzes Display*/
-
 table.lessonsQuizzes {
   width: 100%;
   max-width: 40rem;
@@ -230,6 +347,17 @@ table.lessonsQuizzes > tbody > tr > td{
   background-color: pink; /* Change to pink when selected */
 }
 
+/*Lesson preview input*/
+textarea{
+  width: 100%;
+  border: 2px solid var(--lightpink); 
+  background-color: var(--lightpink);
+  border-radius: 8px;
+  font-family: "Atkinson Hyperlegible Next", serif;
+  font-size: 1.2rem;
+  resize: none;
+}
+
 /* Make CKEditor toolbar automatically wrap */
 .ck-toolbar__items {
   display: flex;
@@ -238,11 +366,10 @@ table.lessonsQuizzes > tbody > tr > td{
 
 /* Ensure CKEditor resizes fluidly */
 .lesson-form .ck-editor__editable {
-  max-width: 70rem;
   min-height: 200px;
   max-height: 60vh;
   box-sizing: border-box;
-  font-size: 18px !important;  /* ✅ Adjust input font size */
+  font-size: 1.2rem !important;  /* ✅ Adjust input font size */
   font-family: "Atkinson Hyperlegible Next", serif !important;
   word-break: break-word !important;
   overflow-wrap: break-word !important; /* Newer property to ensure breaking */
@@ -261,4 +388,88 @@ button.delete-button {
   padding: none !important;
   font-size: 1rem;
   border: none;
+}
+
+
+/*Student lesson search*/
+
+.search-lessons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: 2px solid var(--pink);
+    border-radius: 25px;
+    padding: 5px 10px;
+    background: white;
+    margin-bottom: 1rem;
+}
+
+.search-bar input {
+    border: none;
+    padding: 5px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--pink);
+}
+
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.lesson-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+
+.title-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.lesson-card p {
+    font-size: 14px;
+    color: #555;
+}
+
+.btn-primary {
+    padding: 8px 12px;
+    background: var(--pink);
+    color: black;
+    text-decoration: none;
+    width: fit-content;
+    align-self: flex-end;
+    justify-self: end;
+    margin-top: auto;
+    font-size: clamp(20px, 4vw, 25px);
+}
+
+.btn-primary:hover {
+    background: var(--pink);
+}
+
+
+/*Student lesson view*/
+div.lesson-header{
+  font-size: clamp(20px, 4vw, 40px);
 }
