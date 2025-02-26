@@ -43,7 +43,7 @@ nav {
   justify-content: RIGHT;
   height: AUTO;
   gap: 2rem;
-  background-color: var(--pink);
+  background-color: var(--);
   font-family: "Jersey 10", serif !important;
   color: var(--black);
   font-size: clamp(30px, 13vw, 60px);
