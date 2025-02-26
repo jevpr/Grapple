@@ -45,7 +45,7 @@ nav {
   background-color: var(--pink);
   font-family: "Jersey 10", serif !important;
   color: var(--black);
-  font-size: clamp(30px, 13vw, 60px);
+  font-size: clamp(40px, 15vw, 60px);
 }
 
 .navbar{
@@ -62,32 +62,24 @@ button.menu-toggle {
 
 .logo {
   height: 4rem;
-}
-
-.dropdown-menu {
-    width: 100%;
-    display: none;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease-in-out;
-    position: fixed;
-    top: 5rem;
-    background-color: var(--white);
-}
-
-.dropdown-menu.active {
-    visibility: visible;
-    opacity: 1;
+  padding: 0.5rem
 }
 
 .dropdown-menu > a {
     display: flex;
     align-items: center;
     border: var(--lightpink);
-    justify-content: flex-end;
+    justify-content: center;
+    padding: 0.15rem 0.5rem;
+    border-bottom: solid var(--lightpink);
 }
 
 img.pixicon {
     height: 4rem;
+}
+
+.pixleft {
+  transform: scaleX(-1);
 }
 
 
@@ -110,7 +102,7 @@ h1 {
   margin-top: 2rem;
 }
 
-h2 {
+h2, .dropdown-menu > a > p {
   font-size: clamp(20px, 4vw, 40px);
   margin-top: 1rem;
 }

@@ -2,11 +2,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Grapple{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'learning/css/static.css' %}">
-    <script src="https://kit.fontawesome.com/d764441fbc.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Grapple{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'learning/css/static.css' %}">
+  <script src="https://kit.fontawesome.com/d764441fbc.js" crossorigin="anonymous"></script>
+  <style>
+    .navbar {
+      perspective: 1000px;
+    }
+    
+    .logo {
+      transition: transform 0.6s ease-in-out;
+      transform-style: preserve-3d;
+    }
+
+    .dropdown-menu  {
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      position: absolute;
+      top: 5rem; /* Same as navbar */
+      background-color: var(--white);
+      z-index: 98; /* BELOW navbar */
+      clip-path: inset(0 0 100% 0); /* Completely hidden */
+      transition: clip-path 0.4s ease-out;
+    }
+
+    .dropdown-menu.active {
+      max-height: 500px;
+      clip-path: inset(0 0 0 0);
+    }
+
+    main {
+      transition: margin-top 0.3s ease-out;
+    }
+
+    .main-shift {
+      margin-top: 22rem; /* Adjust based on dropdown height */
+    }
+  </style>
 </head>
 <body>
 
@@ -17,7 +52,8 @@
             <img src="{% static 'learning/images/grapple.png' %}" alt="Menu" class="logo">
         </button>
     </div>
-    <div class="dropdown-menu">
+</nav>
+<div class="dropdown-menu">
         {% if user.is_authenticated %}
             {% if user_group == "Content Creators" %}
                 <a href="{% url 'creator_dashboard' %}" class="dropdown-item">
@@ -36,62 +72,68 @@
             </a>
         {% else %}
             <a href="{% url 'landing' %}" class="dropdown-item">
-                <p>Home</p>
-                <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon">
+              <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon pixleft">
+              <p>Home</p>
+              <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon">
             </a>
             <a href="{% url 'signup' %}" class="dropdown-item">
-                <p>Sign Up</p>
-                <img src="{% static 'learning/images/pinkworm.png' %}" class="pixicon">
+              <img src="{% static 'learning/images/pinkworm.png' %}" class="pixicon pixleft">
+              <p>Sign Up</p>
+              <img src="{% static 'learning/images/pinkworm.png' %}" class="pixicon">
             </a>
             <a href="{% url 'about' %}" class="dropdown-item">
-                <p>About</p>
-                <img src="{% static 'learning/images/greengrap.png' %}" class="pixicon">
+              <img src="{% static 'learning/images/greengrap.png' %}" class="pixicon pixleft">
+              <p>About</p>
+              <img src="{% static 'learning/images/greengrap.png' %}" class="pixicon">
             </a>
             <a href="{% url 'login' %}" class="dropdown-item">
-                <p>Login</p>
-                <img src="{% static 'learning/images/specs.png' %}" class="pixicon">
+              <img src="{% static 'learning/images/specs.png' %}" class="pixicon pixleft">
+              <p>Login</p>
+              <img src="{% static 'learning/images/specs.png' %}" class="pixicon">
             </a>
         {% endif %}
     </div>
-</nav>
 {% endblock %}
 
 <main>{% block content %}{% endblock %}</main>
 
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const menuToggle = document.querySelector(".logo"); // Clickable logo
-        const dropdownMenu = document.querySelector(".dropdown-menu");
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuToggle = document.querySelector(".logo");
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    const mainContent = document.querySelector("main");
 
-        menuToggle.addEventListener("click", function(event) {
-            event.stopPropagation(); // Prevents immediate closure when clicking the logo
+    let isRotated = false; // Track rotation state
 
-            // Toggle display while keeping other styles
-            if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
-                dropdownMenu.style.display = "block";
-                dropdownMenu.classList.add("active"); // Ensures styles apply
-            } else {
-                dropdownMenu.style.display = "none";
-                dropdownMenu.classList.remove("active");
-            }
-        });
+    menuToggle.addEventListener("click", function(event) {
+        event.stopPropagation(); // Prevents closing on immediate click
+        
+        // Toggle logo rotation
+        isRotated = !isRotated;
+        menuToggle.style.transform = isRotated ? "rotateY(180deg)" : "rotateY(0deg)";
 
-        // Close dropdown when clicking outside
-        document.addEventListener("click", function(event) {
-            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                dropdownMenu.style.display = "none";
-                dropdownMenu.classList.remove("active");
-            }
-        });
+        // Toggle dropdown rolling down from behind the navbar
+        if (!dropdownMenu.classList.contains("active")) {
+            dropdownMenu.classList.add("active");
+            mainContent.classList.add("main-shift");
+        } else {
+            dropdownMenu.classList.remove("active");
+            mainContent.classList.remove("main-shift");
+        }
     });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function(event) {
+        if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.remove("active");
+            mainContent.classList.remove("main-shift");
+            isRotated = false; // Reset rotation state
+            menuToggle.style.transform = "rotateY(0deg)";
+        }
+    });
+});
+
 </script>
-
-<style>
-
-
-</style>
-
 
 </body>
 </html>
