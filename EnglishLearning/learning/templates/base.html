@@ -10,32 +10,88 @@
 </head>
 <body>
 
-    {% block navbar %}
-
-      <nav>
+{% block navbar %}
+<nav>
+    <div class="navbar">
+        <button class="menu-toggle">
+            <img src="{% static 'learning/images/grapple.png' %}" alt="Menu" class="logo">
+        </button>
+    </div>
+    <div class="dropdown-menu">
         {% if user.is_authenticated %}
-          {% if user_group == "Content Creators" %}
-            <a href="{% url 'logout' %}">Logout</a>
-            <a href="{% url 'creator_dashboard' %}">
-              <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
+            {% if user_group == "Content Creators" %}
+                <a href="{% url 'creator_dashboard' %}" class="dropdown-item">
+                    <p>Dashboard</p>
+                    <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon">
+                </a>
+            {% elif user_group == "Students" %}
+                <a href="{% url 'student_dashboard' %}" class="dropdown-item">
+                    <p>Dashboard</p>
+                    <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon">
+                </a>
+            {% endif %}
+            <a href="{% url 'logout' %}" class="dropdown-item">
+                <p>Logout</p>
+                <img src="{% static 'learning/images/pinkworm.png' %}" class="pixicon">
             </a>
-          {% elif user_group == "Students" %}
-            <a href="{% url 'logout' %}">Logout</a>
-            <a href="{% url 'student_dashboard' %}">
-              <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
-            </a>
-          {% endif %}
         {% else %}
-          <a href="{% url 'about' %}">ABOUT</a>
-          <a href="{% url 'login' %}">LOG IN</a>
-          <a href="{% url 'landing' %}">
-            <img src="{% static 'learning/images/grapple.png' %}" alt="Logo" class="logo">
-          </a>
+            <a href="{% url 'landing' %}" class="dropdown-item">
+                <p>Home</p>
+                <img src="{% static 'learning/images/wormgrap.png' %}" class="pixicon">
+            </a>
+            <a href="{% url 'signup' %}" class="dropdown-item">
+                <p>Sign Up</p>
+                <img src="{% static 'learning/images/pinkworm.png' %}" class="pixicon">
+            </a>
+            <a href="{% url 'about' %}" class="dropdown-item">
+                <p>About</p>
+                <img src="{% static 'learning/images/greengrap.png' %}" class="pixicon">
+            </a>
+            <a href="{% url 'login' %}" class="dropdown-item">
+                <p>Login</p>
+                <img src="{% static 'learning/images/specs.png' %}" class="pixicon">
+            </a>
         {% endif %}
-      </nav>
-    {% endblock %}
+    </div>
+</nav>
+{% endblock %}
 
-    <main>{% block content %}{% endblock %}</main>
+<main>{% block content %}{% endblock %}</main>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const menuToggle = document.querySelector(".logo"); // Clickable logo
+        const dropdownMenu = document.querySelector(".dropdown-menu");
+
+        menuToggle.addEventListener("click", function(event) {
+            event.stopPropagation(); // Prevents immediate closure when clicking the logo
+
+            // Toggle display while keeping other styles
+            if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                dropdownMenu.style.display = "block";
+                dropdownMenu.classList.add("active"); // Ensures styles apply
+            } else {
+                dropdownMenu.style.display = "none";
+                dropdownMenu.classList.remove("active");
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function(event) {
+            if (!menuToggle.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.style.display = "none";
+                dropdownMenu.classList.remove("active");
+            }
+        });
+    });
+</script>
+
+<style>
+
+
+</style>
+
 
 </body>
 </html>

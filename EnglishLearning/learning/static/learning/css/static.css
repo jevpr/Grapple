@@ -39,22 +39,57 @@ nav {
   width: 100%;
   z-index: 99;
   display: flex;
-  align-items: center;
-  justify-content: RIGHT;
-  height: AUTO;
-  gap: 2rem;
-  background-color: var(--);
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+  background-color: var(--pink);
   font-family: "Jersey 10", serif !important;
   color: var(--black);
   font-size: clamp(30px, 13vw, 60px);
-  padding-top: 0.5rem;
 }
 
+.navbar{
+  padding: none;
+  margin: none;
+  height: fit-content;
+}
 
-nav > a > img {
+button.menu-toggle {
+  display: flex;
+  background: none;
+  border: none;
+}
+
+.logo {
   height: 4rem;
-  margin-right: 2rem;
 }
+
+.dropdown-menu {
+    width: 100%;
+    display: none;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+    position: fixed;
+    top: 5rem;
+    background-color: var(--white);
+}
+
+.dropdown-menu.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.dropdown-menu > a {
+    display: flex;
+    align-items: center;
+    border: var(--lightpink);
+    justify-content: flex-end;
+}
+
+img.pixicon {
+    height: 4rem;
+}
+
 
 a {
   text-decoration: none;
