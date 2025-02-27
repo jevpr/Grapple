@@ -136,7 +136,7 @@ def student_dashboard(request):
         'bookmarked_lessons': bookmarked_lessons
     })
 
-
+# Student Lesson search
 @login_required
 def lesson_search(request):
     query = request.GET.get("q", "")
@@ -156,7 +156,6 @@ def lesson_search(request):
 
     tags = Tag.objects.all()
 
-    # ✅ Precompute bookmarked lessons for the current user
     bookmarked_lessons = set(BookmarkedLesson.objects.filter(user=request.user).values_list('lesson_id', flat=True))
 
     return render(request, "student/lesson_search.html", {
@@ -164,7 +163,7 @@ def lesson_search(request):
         "tags": tags,
         "query": query,
         "selected_tags": tag_filter,
-        "bookmarked_lessons": bookmarked_lessons  # ✅ Pass precomputed bookmarks
+        "bookmarked_lessons": bookmarked_lessons 
     })
 
 @login_required
@@ -173,15 +172,30 @@ def lesson_view(request, lesson_id):
     comments = Comment.objects.filter(lesson=lesson)
     notes = Note.objects.filter(lesson=lesson, user=request.user)
 
-    # ✅ Ensure we check if the lesson is bookmarked by the user
     is_bookmarked = BookmarkedLesson.objects.filter(user=request.user, lesson=lesson).exists()
 
     return render(request, "student/lesson_view.html", {
         "lesson": lesson,
         "comments": comments,
         "notes": notes,
-        "is_bookmarked": is_bookmarked,  # ✅ Pass the bookmark status to the template
+        "is_bookmarked": is_bookmarked,
     })
+
+
+@login_required
+def toggle_bookmark(request, lesson_id):
+    """Toggles the bookmark status for a lesson."""
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    bookmark, created = BookmarkedLesson.objects.get_or_create(user=request.user, lesson=lesson)
+
+    if not created:
+        bookmark.delete()
+        bookmarked = False
+    else:
+        bookmarked = True
+
+    return JsonResponse({"bookmarked": bookmarked})
 
 @login_required
 def add_comment(request, lesson_id):
@@ -200,20 +214,3 @@ def add_note(request, lesson_id):
         if note_text:
             Note.objects.create(lesson=lesson, user=request.user, text=note_text)
     return redirect("lesson_view", lesson_id=lesson_id)
-
-
-@login_required
-def toggle_bookmark(request, lesson_id):
-    lesson = get_object_or_404(Lesson, id=lesson_id)
-    
-    # Check if the lesson is already bookmarked
-    bookmark, created = BookmarkedLesson.objects.get_or_create(user=request.user, lesson=lesson)
-
-    if not created:
-        # If bookmark already exists, remove it (unbookmark)
-        bookmark.delete()
-        bookmarked = False
-    else:
-        bookmarked = True
-
-    return JsonResponse({"bookmarked": bookmarked})

@@ -41,66 +41,54 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-//This is the code for the bookmarking function on lesson_search
+
 document.addEventListener("DOMContentLoaded", function () {
-  const tagLabels = document.querySelectorAll(".tag-label");
-  const form = document.querySelector(".search-lessons");
-  const bookmarkIcons = document.querySelectorAll(".bookmark-icon");
+  // ✅ Function to Get CSRF Token
+  function getCSRFToken() {
+    const csrfInput = document.querySelector(
+      "input[name='csrfmiddlewaretoken']"
+    );
+    if (!csrfInput) {
+      console.error(
+        "CSRF token input not found! Make sure {% csrf_token %} is present in your HTML."
+      );
+    }
+    return csrfInput ? csrfInput.value : "";
+  }
 
-  // ✅ Toggle tag selection
-  tagLabels.forEach((label) => {
-    label.addEventListener("click", function () {
-      const checkbox = document.getElementById(this.getAttribute("for"));
-      checkbox.checked = !checkbox.checked;
-      this.classList.toggle("selected", checkbox.checked);
-      form.submit();
-    });
-  });
+  // ✅ Select ALL bookmark icons on the page
+  function attachBookmarkListeners() {
+    const bookmarkIcons = document.querySelectorAll(".bookmark-icon");
 
-  // ✅ Bookmark Toggle Functionality
-  bookmarkIcons.forEach((icon) => {
-    icon.addEventListener("click", function () {
-      const lessonId = this.dataset.lesson;
+    bookmarkIcons.forEach((icon) => {
+      icon.addEventListener("click", function () {
+        const lessonId = this.dataset.lesson;
+        const bookmarkUrl = this.dataset.url;
+        const csrfToken = getCSRFToken();
 
-      fetch(`/lesson/${lessonId}/bookmark/`, {
-        method: "POST",
-        headers: { "X-CSRFToken": "{{ csrf_token }}" },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.bookmarked) {
-            this.classList.remove("fa-regular");
-            this.classList.add("fa-solid");
-          } else {
-            this.classList.remove("fa-solid");
-            this.classList.add("fa-regular");
-          }
-        });
-    });
-  });
-});
-
-
-//This is the script for the bookmark function in lesson_view
-document.addEventListener("DOMContentLoaded", function () {
-  const bookmarkIcon = document.querySelector(".bookmark-icon");
-
-  bookmarkIcon.addEventListener("click", function () {
-    const lessonId = this.dataset.lesson;
-
-    fetch(`/lesson/${lessonId}/bookmark/`, {
-      method: "POST",
-      headers: { "X-CSRFToken": "{{ csrf_token }}" },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.bookmarked) {
-          this.classList.remove("fa-regular");
-          this.classList.add("fa-solid");
-        } else {
-          this.classList.remove("fa-solid");
-          this.classList.add("fa-regular");
-        }
+        fetch(bookmarkUrl, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": csrfToken,
+            "Content-Type": "application/json",
+          },
+          credentials: "same-origin",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.bookmarked) {
+              this.classList.remove("fa-regular");
+              this.classList.add("fa-solid");
+            } else {
+              this.classList.remove("fa-solid");
+              this.classList.add("fa-regular");
+            }
+          })
+          .catch((error) => console.error("Error:", error));
       });
-  });
+    });
+  }
+
+  // ✅ Attach bookmark listeners when page loads
+  attachBookmarkListeners();
 });

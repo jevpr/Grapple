@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Search for Lessons</h2>
 
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<h2>Search for Lessons</h2>
 <!-- Search Form -->
 <form method="GET" action="{% url 'lesson_search' %}" class="search-lessons">
     <div class="search-bar">
@@ -28,25 +30,20 @@
 {% if lessons %}
     <div class="lesson-grid">
         {% for lesson in lessons %}
-            <div class="lesson-card">
-                <!-- ✅ Bookmark Icon in Top-Right -->
-                <div class="title-div">
-                    <h3>{{ lesson.title }}</h3>
-                    <i class="fa{% if lesson.id in bookmarked_lessons %}-solid{% else %}-regular{% endif %} fa-bookmark bookmark-icon"
-                       data-lesson="{{ lesson.id }}"
-                       style="color: #fdb0c8; cursor: pointer;">
-                    </i>
-                </div>
+        <div class="lesson-card">
 
-                <p>{{ lesson.preview }}</p>
-                <p><strong>Tags:</strong> 
-                    {% for tag in lesson.tags.all %}
-                        {{ tag.name }}{% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </p>
-                <!-- ✅ View Lesson Button -->
-                <a href="{% url 'lesson_view' lesson.id %}" class="btn btn-primary">View Lesson</a>
+            <div class="title-div">
+                <h3>{{ lesson.title }}</h3>
+                <i class="fa{% if lesson.id in bookmarked_lessons %}-solid{% else %}-regular{% endif %} fa-bookmark bookmark-icon"
+                   data-lesson="{{ lesson.id }}"
+                   data-url="{% url 'toggle_bookmark' lesson.id %}"
+                   style="color: #fdb0c8; cursor: pointer;">
+                </i>
             </div>
+
+            <p>{{ lesson.preview }}</p>
+            <a href="{% url 'lesson_view' lesson.id %}" class="btn btn-primary">View Lesson</a>
+        </div>
         {% endfor %}
     </div>
 {% else %}

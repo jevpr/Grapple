@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.templatetags.static import static
-from .models import Lesson, Tag, Quiz, Question, Option, UserProgress, UserProfile
+from .models import Lesson, Tag, BookmarkedLesson, Quiz, Question, Option, UserProgress, UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -31,6 +31,7 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Tag)
+admin.site.register(BookmarkedLesson)
 admin.site.register(Quiz)
 admin.site.register(Question)
 admin.site.register(Option)

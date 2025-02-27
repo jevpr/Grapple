@@ -6,14 +6,11 @@
 {% block content %}
     <div class="lesson-header">
         <h1>{{ lesson.title }}</h1>
-
-        <!-- ✅ Bookmark Icon in Top-Right -->
-        <div class="bookmark-container">
-            <i class="fa{% if is_bookmarked %}-solid{% else %}-regular{% endif %} fa-bookmark bookmark-icon"
-               data-lesson="{{ lesson.id }}"
-               style="color: #fdb0c8; cursor: pointer;">
-            </i>
-        </div>
+        <i class="fa{% if is_bookmarked %}-solid{% else %}-regular{% endif %} fa-bookmark bookmark-icon" 
+           data-lesson="{{ lesson.id }}" 
+           data-url="{% url 'toggle_bookmark' lesson.id %}" 
+           style="color: #fdb0c8; cursor: pointer;">
+        </i>
     </div>
 
     <div class="lesson-content">

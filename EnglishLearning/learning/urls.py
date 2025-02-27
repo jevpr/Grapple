@@ -24,7 +24,7 @@ urlpatterns = [
     path('dashboard/student/', views.student_dashboard, name='student_dashboard'),
     path("lesson_search/", views.lesson_search, name="lesson_search"),
     path("lesson/<int:lesson_id>/", views.lesson_view, name="lesson_view"),
+    path("lesson/<int:lesson_id>/bookmark/", views.toggle_bookmark, name="toggle_bookmark"),
     path("lesson/<int:lesson_id>/comment/", views.add_comment, name="add_comment"),
     path("lesson/<int:lesson_id>/note/", views.add_note, name="add_note"),
-    path("lesson/<int:lesson_id>/bookmark/", views.toggle_bookmark, name="toggle_bookmark"),
 ]
