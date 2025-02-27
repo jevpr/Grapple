@@ -53,45 +53,5 @@
     <p>No lessons found.</p>
 {% endif %}
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const tagLabels = document.querySelectorAll(".tag-label");
-    const form = document.querySelector(".search-lessons");
-    const bookmarkIcons = document.querySelectorAll(".bookmark-icon");
-
-    // ✅ Toggle tag selection
-    tagLabels.forEach(label => {
-        label.addEventListener("click", function() {
-            const checkbox = document.getElementById(this.getAttribute("for"));
-            checkbox.checked = !checkbox.checked;
-            this.classList.toggle("selected", checkbox.checked);
-            form.submit();
-        });
-    });
-
-    // ✅ Bookmark Toggle Functionality
-    bookmarkIcons.forEach(icon => {
-        icon.addEventListener("click", function() {
-            const lessonId = this.dataset.lesson;
-
-            fetch(`/lesson/${lessonId}/bookmark/`, {
-                method: "POST",
-                headers: { "X-CSRFToken": "{{ csrf_token }}" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.bookmarked) {
-                    this.classList.remove("fa-regular");
-                    this.classList.add("fa-solid");
-                } else {
-                    this.classList.remove("fa-solid");
-                    this.classList.add("fa-regular");
-                }
-            });
-        });
-    });
-});
-</script>
-
 
 {% endblock %}

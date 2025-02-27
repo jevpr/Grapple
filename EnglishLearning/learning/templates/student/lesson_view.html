@@ -61,30 +61,4 @@
 
     <a href="{% url 'lesson_search' %}">← Back to Lessons</a>
 
-    <!-- ✅ JavaScript for Bookmark Toggle -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const bookmarkIcon = document.querySelector(".bookmark-icon");
-
-        bookmarkIcon.addEventListener("click", function() {
-            const lessonId = this.dataset.lesson;
-
-            fetch(`/lesson/${lessonId}/bookmark/`, {
-                method: "POST",
-                headers: { "X-CSRFToken": "{{ csrf_token }}" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.bookmarked) {
-                    this.classList.remove("fa-regular");
-                    this.classList.add("fa-solid");
-                } else {
-                    this.classList.remove("fa-solid");
-                    this.classList.add("fa-regular");
-                }
-            });
-        });
-    });
-    </script>
-
 {% endblock %}

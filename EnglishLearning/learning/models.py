@@ -47,10 +47,10 @@ class Lesson(models.Model):
 class BookmarkedLesson(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookmarked_lessons")
     lesson = models.ForeignKey("Lesson", on_delete=models.CASCADE, related_name="bookmarked_by_users")
-    created_at = models.DateTimeField(auto_now_add=True)  # ✅ Tracks when bookmarked
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "lesson")  # ✅ Prevent duplicate bookmarks
+        unique_together = ("user", "lesson")
 
     def __str__(self):
         return f"{self.user.username} bookmarked {self.lesson.title}"
@@ -90,8 +90,7 @@ class Quiz(models.Model):
     title = models.CharField(max_length=200, default="Untitled Quiz")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)  # ✅ Link quiz to creator
-
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return self.title
 
