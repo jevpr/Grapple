@@ -6,7 +6,7 @@
 ## Important Information
 | Site              | Link |
 |-------------------|------|
-| Heroku Deployment | LINK | 
+| Heroku Deployment | [LINK](https://grapple-fe5402338427.herokuapp.com/) | 
 | Github Repository       | [LINK](https://github.com/jevpr/Grapple) |
 
 
