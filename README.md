@@ -72,11 +72,23 @@ Grapple keeps English learner's notes and materials in one place, making it easy
 | **Frontend**         | HTML, CSS, JavaScript |
 | **Backend**          | Django (Python) |
 | **Database**         | SQLite3 |
-| **Version Control and AGILE development**  | Git & GitHub |
+| **Version Control and AGILE development**  | Git & GitHub, Microsoft To_do |
 | **Deployment**       | Heroku
 | **Libraries & Tools** | Django Authentication, CKEditor5 for rich text editing, Django Signals for user group management |
 
 
+### Agile Development
+Grapple was developed using an Agile approach, with tasks organized and tracked using Microsoft To Do. While it is not a traditional Agile tool like Trello or Jira, it was effectively used to:
+
+1. Organize backlog items (features, bug fixes, and improvements).
+2. Prioritize tasks based on project milestones.
+3. Track progress using checklists and completion status.
+4. Break development into iterations (e.g., Authentication, Lesson CRUD, UI Enhancements).
+
+Below is an example of how tasks were structured in Microsoft To Do:
+![A screenshot of a Microsoft To-Do list](docs/To-Do.png)
+
+I reviewed the to-do list on a daily basis, to make sure I was on track and had kept up to date on everything I needed to review. 
 
 <br>
 <br>

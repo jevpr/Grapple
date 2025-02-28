@@ -1,15 +1,12 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Grapple{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'learning/css/static.css' %}" />
-    <script
-      src="https://kit.fontawesome.com/d764441fbc.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/d764441fbc.js" crossorigin="anonymous"></script>
   </head>
   <body>
     {% block navbar %}
@@ -18,7 +15,7 @@
         <button class="menu-toggle">
           <img
             src="{% static 'learning/images/grapple.png' %}"
-            alt="Menu"
+            alt="Grapple Logo"
             class="logo"
           />
         </button>
@@ -30,7 +27,7 @@
         <p>Dashboard</p>
         <img
           src="{% static 'learning/images/wormgrap.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a pixel worm in an apple"
         />
       </a>
       {% elif user_group == "Students" %}
@@ -38,7 +35,7 @@
         <p>Dashboard</p>
         <img
           src="{% static 'learning/images/wormgrap.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a pixel worm in an apple"
         />
       </a>
       {% endif %}
@@ -46,50 +43,50 @@
         <p>Logout</p>
         <img
           src="{% static 'learning/images/pinkworm.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a pink pixel worm"
         />
       </a>
       {% else %}
       <a href="{% url 'landing' %}" class="dropdown-item">
         <img
           src="{% static 'learning/images/wormgrap.png' %}"
-          class="pixicon pixleft"
+          class="pixicon pixleft" alt="a pixel worm in an apple"
         />
         <p>Home</p>
         <img
           src="{% static 'learning/images/wormgrap.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a pixel worm in an apple"
         />
       </a>
       <a href="{% url 'signup' %}" class="dropdown-item">
         <img
           src="{% static 'learning/images/pinkworm.png' %}"
-          class="pixicon pixleft"
+          class="pixicon pixleft" alt="a pink pixel worm"
         />
         <p>Sign Up</p>
         <img
           src="{% static 'learning/images/pinkworm.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a pink pixel worm"
         />
       </a>
       <a href="{% url 'about' %}" class="dropdown-item">
         <img
           src="{% static 'learning/images/greengrap.png' %}"
-          class="pixicon pixleft"
+          class="pixicon pixleft" alt="a green pixel apple"
         />
         <p>About</p>
         <img
           src="{% static 'learning/images/greengrap.png' %}"
-          class="pixicon"
+          class="pixicon" alt="a green pixel apple"
         />
       </a>
       <a href="{% url 'login' %}" class="dropdown-item">
         <img
           src="{% static 'learning/images/specs.png' %}"
-          class="pixicon pixleft"
+          class="pixicon pixleft" alt="a pixel worm in glasses"
         />
         <p>Login</p>
-        <img src="{% static 'learning/images/specs.png' %}" class="pixicon" />
+        <img src="{% static 'learning/images/specs.png' %}" class="pixicon" alt="a pixel worm in glasses"/>
       </a>
       {% endif %}
     </div>
@@ -98,4 +95,5 @@
     <main>{% block content %}{% endblock %}</main>
     <script src="{% static 'learning/javascript/script.js' %}"></script>
   </body>
+  
 </html>

@@ -48,8 +48,8 @@ nav {
 }
 
 .navbar {
-  padding: none;
-  margin: none;
+  padding: 0;
+  margin: 0;
   height: fit-content;
   perspective: 1000px;
 }
@@ -435,7 +435,7 @@ textarea {
 button.delete-button {
   background: none !important;
   cursor: pointer;
-  padding: none !important;
+  padding: 0 !important;
   font-size: 1rem;
   border: none;
 }
