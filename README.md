@@ -26,11 +26,18 @@
 ### 1. [Project Overview](#project-overview)
 - [Description](#description)
 - [Technologies Used](#technologies-used)
+- [Agile Development](#agile-development)
+- [User Stories & Agile Mapping](#user-stories--agile-mapping)
 
 ### 2. [Users](#users)
 - [User Roles](#user-roles)
 - [User Stories](#user-stories)
+    - [Students](#students)
+    - [Content Creators](#content-creators)
+
+
 ### 3. [Features](#features)
+
 ### 4. [Frontend](#frontend)
 - [Colour Scheme](#colour-scheme)
 - [Fonts](#fonts)
@@ -38,13 +45,27 @@
 - [Wireframes and UI](#wireframes)
 
 ### 5. [Backend](#backend)
+- [Database Design](#database-design)
+- [Database Justification](#database-design-justification)
 
 ### 6. [Authentication & Security](#authentication--security)
-- [User Authentication](#user-authentication)
-- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
-- [Password Security](#password-security)
-- [Session Management & CSRF Protection](#session-management--csrf-protection)
-- [Deployment & Security Considerations](#deployment--security-considerations)
+   - [User Authentication](#user-authentication)
+   - [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+   - [Password Security](#password-security)
+   - [Session Management & CSRF Protection](#session-management--csrf-protection)
+   - [Security Considerations](#security-considerations)
+
+### 7. [Testing](#testing)
+   - [Manual Testing](#manual-testing)
+   - [Automated Testing](#automated-testing)
+   - [Validation](#validation)
+
+
+### 8. [Deployment](#deployment)
+
+### 9. [Future Features & Roadmap](#future-features--roadmap)
+
+### 10. [Credits & References](#credits)
 
 
 
