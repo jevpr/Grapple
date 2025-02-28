@@ -64,7 +64,7 @@ The project takes inspiration from Duolingo in it's use of cute avatars and brig
 
 Although Grapple is still in early stages of development, later iterations will include features like games, quizzes, advanced notes features, and progress tracking. 
 
-Grapple keeps English learner's notes and materials in one place, making it easy for them to access annd keep track of their learning. A consistent and accessible style across the site removes barriers to learning, and ensures all information can be easily absorbed. 
+Grapple keeps English learner's notes and materials in one place, making it easy for them to access and keep track of their learning. A consistent and accessible style across the site removes barriers to learning, and ensures all information can be easily absorbed. 
 
 ## Technologies Used
 | **Category**           | **Technologies Used** |
@@ -101,7 +101,7 @@ Grapple keeps English learner's notes and materials in one place, making it easy
 - search for lessons using a specific key word or tag name, so that I can quickly find relevant material.
 - open a lesson and view its content, so that I can study the material in detail. 
  - add personal notes to a lesson, so that I can refer to key points later. 
- - comment on kessons, so that I can ask questions or discuss the topic with others.
+ - comment on lessons, so that I can ask questions or discuss the topic with others.
 
 <br>
 
@@ -115,7 +115,7 @@ Grapple keeps English learner's notes and materials in one place, making it easy
 
 <em>As a content creator, I want to be able to: </em>
 
-- navigate an intuitive dashboard, so that I can quickly manage me lessons. 
+- navigate an intuitive dashboard, so that I can quickly manage my lessons. 
 - log in securely so that my content cannot be edited by unauthorized users. 
 - create new lessons, so that students have educational material to learn from. 
 - format lessons content with headings, tables and lists, so that the material is engaging and readable (using a rich text editor).
@@ -379,9 +379,6 @@ def logout_view(request):
 |  | Add Note | Student posts a personal note | Note appears under the lesson and isn't visible to other users |  Passed |
 | **Search & Filtering** | Search Lessons | Enter keyword in search bar | Only matching lessons appear |  Passed |
 |  | Filter by Tags | Select a tag filter | Only lessons with selected tag appear |  Passed |
-
-
-### Automated Testing
 
 
 
