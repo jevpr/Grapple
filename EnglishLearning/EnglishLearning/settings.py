@@ -10,8 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
+
 import os
+import django_heroku
+import dj_database_url
+from pathlib import Path
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0v7m%zl+0=ifhcr%(ej__+(h!zi0nn6bf64hiez%wth7tgbrun'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["grapple-596d358701be.herokuapp.com", "127.0.0.1", "localhost"]
 
@@ -149,6 +154,7 @@ CKEDITOR_5_CONFIGS = {
                 "link", "insertTable", "mediaEmbed", "|",
                 "undo", "redo", "|",
                 "alignment", "fontSize", "fontColor", "highlight", "|",
+                "imageUpload", "imageStyle:full", "imageStyle:side", "|",
                 "math", "specialCharacters"
             ],
             "shouldNotGroupWhenFull": True,  # ✅ Forces wrapping instead of hiding items
@@ -165,9 +171,7 @@ CKEDITOR_5_CONFIGS = {
 
 
 
-import django_heroku
-import dj_database_url
-import os
+
 
 # Configure PostgreSQL database (Heroku default)
 DATABASES = {

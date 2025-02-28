@@ -381,6 +381,51 @@ def logout_view(request):
 |  | Filter by Tags | Select a tag filter | Only lessons with selected tag appear |  Passed |
 
 
+### Automated Testing
+As automated testing was optional according to the Portfolio 3 Assessment Guide, this will appear in the next iteration of Grapple. 
+
+
+
+## Deployment
+
+1. Set up a django file locally 
+First, a venv and django project were established locally: 
+```bash
+python -m venv venv 
+```
+
+Django and necessary packages were installed: 
+```bash
+pip install django gunicorn psycopg2-binary dj-database-url
+
+```
+
+A django project was created. 
+```bash
+django-admin startproject EnglishLearning
+```
+
+Initial models, migrations, and superusers were created and run:
+```bash
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py collectstatic --noinput
+```
+
+The server was tested locally
+```bash
+python manage.py runserver
+```
+
+
+2. Push code to GitHub
+
+The project was linked to a GitHub repository using VS Code's built-in features. 
+
+3. Link Heroku account with GitHub and deployed manually using branch deployment
+
+After signing in to Heroku, and linking to my Github, I deployed to Heroku by publishing from the main branch of my GitHub repository (Grapple).
+
 
 
 ## Future Features & Roadmap
@@ -391,3 +436,5 @@ Grapple will continue to improve with the following planned updates:
 **User Progress Tracking**: Track lessons completed and quiz scores.  
 **Interactive Quizzes**: Add multiple-choice quizzes for students to test their knowledge.  
 **Improved Search Functionality**: Advanced filtering options for lessons.  
+
+
