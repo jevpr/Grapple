@@ -78,13 +78,6 @@ class Note(models.Model):
 
 
 
-
-
-
-
-
-
-
 # Represents an entire quiz (a collection of questions)
 class Quiz(models.Model):
     title = models.CharField(max_length=200, default="Untitled Quiz")

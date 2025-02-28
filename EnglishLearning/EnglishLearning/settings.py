@@ -157,13 +157,13 @@ CKEDITOR_5_CONFIGS = {
                 "imageUpload", "imageStyle:full", "imageStyle:side", "|",
                 "math", "specialCharacters"
             ],
-            "shouldNotGroupWhenFull": True,  # ✅ Forces wrapping instead of hiding items
+            "shouldNotGroupWhenFull": True,  
         },
-        "placeholder": "Type your lesson content here...",  # ✅ Adds CKEditor placeholder
+        "placeholder": "Type your lesson content here...",  
         "editorConfig": {
              "contentsCss": [
-                "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",  # ✅ Default CKEditor styles
-                "/static/css/ckeditor_custom.css"  # ✅ Custom CSS override
+                "https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-theme-lark@35.2.0/theme/ckeditor.css",  
+                "/static/css/ckeditor_custom.css"  
             ],
         },
     }

@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ Function to Submit the Form
+  // Function to Submit the Form
   function submitSearchForm() {
     const form = document.querySelector(".search-lessons");
     if (form) {
@@ -58,27 +58,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // ✅ Handle Search Input "Enter" Key Event
+  // Handle Search Input "Enter" Key Event
   const searchInput = document.getElementById("search-input");
   if (searchInput) {
     searchInput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
-        event.preventDefault(); // ✅ Prevent default page reload
-        submitSearchForm(); // ✅ Submit form
+        event.preventDefault(); 
+        submitSearchForm(); 
       }
     });
   }
 
-  // ✅ Handle Tag Selection Click Event
+  // Handle Tag Selection Click Event
   const tagLabels = document.querySelectorAll(".tag-label");
   if (tagLabels.length > 0) {
     tagLabels.forEach((label) => {
       label.addEventListener("click", function () {
         const checkbox = document.getElementById(this.getAttribute("for"));
         if (checkbox) {
-          checkbox.checked = !checkbox.checked; // ✅ Toggle checkbox
-          this.classList.toggle("selected", checkbox.checked); // ✅ Toggle selected class
-          submitSearchForm(); // ✅ Automatically submit form
+          checkbox.checked = !checkbox.checked; 
+          this.classList.toggle("selected", checkbox.checked); 
+          submitSearchForm(); 
         }
       });
     });
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // This is the code for the bookmark toggle
 document.addEventListener("DOMContentLoaded", function () {
-  // ✅ Function to Get CSRF Token
+  // Function to Get CSRF Token
   function getCSRFToken() {
     const csrfInput = document.querySelector(
       "input[name='csrfmiddlewaretoken']"
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return csrfInput ? csrfInput.value : "";
   }
 
-  // ✅ Select ALL bookmark icons on the page
+  // Select ALL bookmark icons on the page
   function attachBookmarkListeners() {
     const bookmarkIcons = document.querySelectorAll(".bookmark-icon");
 
@@ -133,6 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // ✅ Attach bookmark listeners when page loads
+  //Attach bookmark listeners when page loads
   attachBookmarkListeners();
 });

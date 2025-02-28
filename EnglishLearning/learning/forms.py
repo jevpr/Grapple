@@ -76,7 +76,7 @@ class LessonForm(forms.ModelForm):
     )
 
     content = forms.CharField(
-        widget=CKEditor5Widget(config_name="default"),  # ✅ Apply CKEditor
+        widget=CKEditor5Widget(config_name="default"),  
         required=True
     )
 
@@ -86,7 +86,7 @@ class LessonForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Lesson Title",  # ✅ Already has a placeholder
+                "placeholder": "Lesson Title",  
             }),
             "preview": forms.Textarea(attrs={
                 'rows': 3, 
@@ -97,6 +97,5 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # ✅ Remove labels by setting them to empty strings
         self.fields["title"].label = ""
         self.fields["content"].label = ""

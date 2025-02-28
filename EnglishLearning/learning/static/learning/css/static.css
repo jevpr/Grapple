@@ -29,7 +29,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  display: none; /* ✅ Hides scrollbar in WebKit browsers (Chrome, Safari) */
+  display: none; 
 }
 
 nav {
@@ -72,10 +72,10 @@ button.menu-toggle {
   max-height: 0;
   overflow: hidden;
   position: absolute;
-  top: 5rem; /* Same as navbar */
+  top: 5rem; 
   background-color: var(--white);
-  z-index: 98; /* BELOW navbar */
-  clip-path: inset(0 0 100% 0); /* Completely hidden */
+  z-index: 98; 
+  clip-path: inset(0 0 100% 0); 
   transition: clip-path 0.4s ease-out;
 }
 
@@ -171,7 +171,7 @@ div.buttons {
 }
 
 .lesson-image img {
-  width: 10vw; /* Adjust image size */
+  width: 10vw; 
   height: auto;
   object-fit: cover;
   border-radius: 10px;
@@ -194,7 +194,7 @@ div.buttons {
 /*Sign up banner*/
 #signup-banner {
   position: fixed;
-  bottom: -100px; /* Start hidden */
+  bottom: -100px; 
   left: 0;
   width: 100%;
   background-color: #ffd6e1;
@@ -233,7 +233,7 @@ div.buttons {
 .lesson-content > h3 {
   font-size: clamp(20px, 4vw, 40px);
   margin-bottom: 2rem;
-  position: relative; /* ✅ Needed for absolute positioning */
+  position: relative; 
 }
 
 .lesson-content > h3::after,
@@ -372,7 +372,7 @@ table.lessonsQuizzes thead tr th:last-child {
 }
 
 table.lessonsQuizzes thead {
-  background-color: var(--pink); /* Keep background on the whole header */
+  background-color: var(--pink); 
 }
 
 table.lessonsQuizzes > thead > tr > th {
@@ -419,11 +419,11 @@ table.lessonsQuizzes > tbody > tr > td {
 }
 
 .tag-checkbox {
-  display: none; /* Hide the actual checkbox */
+  display: none; 
 }
 
 .tag-label.selected {
-  background-color: pink; /* Change to pink when selected */
+  background-color: pink; 
 }
 
 /*Lesson preview input*/
@@ -448,11 +448,11 @@ textarea {
   min-height: 200px;
   max-height: 60vh;
   box-sizing: border-box;
-  font-size: 1.2rem !important; /* ✅ Adjust input font size */
+  font-size: 1.2rem !important; 
   font-family: "Atkinson Hyperlegible Next", serif !important;
   word-break: break-word !important;
-  overflow-wrap: break-word !important; /* Newer property to ensure breaking */
-  white-space: normal !important; /* Prevents text from staying in one line */
+  overflow-wrap: break-word !important; 
+  white-space: normal !important; 
 }
 
 .lesson-form .ck-editor__editable ul,
