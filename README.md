@@ -14,7 +14,7 @@
 
 | User type | Username | Password |
 |-----------|----------|----------|
-| Student   | student  | Testing123! |
+| Student   | Create your own!  |  |
 | Content Creator | contentCreator | Testing123! |
 
 <br>
