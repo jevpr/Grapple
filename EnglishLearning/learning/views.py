@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -51,13 +51,22 @@ def signup_view(request):
 
 
 def login_view(request):
-    form = CustomLoginForm(data=request.POST) if request.method == "POST" else CustomLoginForm()
-    if request.method == 'POST' and form.is_valid():
-        user = form.get_user()
-        login(request, user)
-        if user.groups.filter(name='Content Creators').exists():
-            return redirect('creator_dashboard')  
-        return redirect('student_dashboard')  
+    form = CustomLoginForm(request, data=request.POST) if request.method == "POST" else CustomLoginForm()
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            if user.groups.filter(name='Content Creators').exists():
+                return redirect('creator_dashboard')  
+            return redirect('student_dashboard')  
+        else:
+            messages.error(request, "Invalid username or password. Please try again.")
+
     return render(request, 'registration/login.html', {'form': form})
 
 
@@ -74,7 +83,7 @@ def is_student(user):
 
 # Content Creator Views
 @login_required
-@user_passes_test(is_content_creator)
+@user_passes_test(is_content_creator, login_url='/dashboard/student/')
 def creator_dashboard(request):
     return render(request, 'dashboard/creator_dashboard.html')
 
@@ -128,7 +137,7 @@ def delete_lesson(request, lesson_id):
 
 # Student Views
 @login_required
-@user_passes_test(is_student)
+@user_passes_test(is_student, login_url='/dashboard/creator/')
 def student_dashboard(request):
     bookmarked_lessons = Lesson.objects.filter(bookmarked_by_users__user=request.user)
 
@@ -139,7 +148,7 @@ def student_dashboard(request):
 # Student Lesson search
 @login_required
 def lesson_search(request):
-    query = request.GET.get("q", "")
+    query = request.GET.get("q", "").strip()
     tag_filter = request.GET.getlist("tags")
 
     lessons = Lesson.objects.all()

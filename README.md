@@ -31,11 +31,22 @@
 - [User Roles](#user-roles)
 - [User Stories](#user-stories)
 ### 3. [Features](#features)
-### 4. [Front End](#front-end)
+### 4. [Frontend](#frontend)
 - [Colour Scheme](#colour-scheme)
 - [Fonts](#fonts)
 - [Pixel Assets](#pixel-assets)
 - [Wireframes and UI](#wireframes)
+
+### 5. [Backend](#backend)
+
+### 6. [Authentication & Security](#authentication--security)
+- [User Authentication](#user-authentication)
+- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Password Security](#password-security)
+- [Session Management & CSRF Protection](#session-management--csrf-protection)
+- [Deployment & Security Considerations](#deployment--security-considerations)
+
+
 
 <br>
 <br>
@@ -61,7 +72,7 @@ Grapple keeps English learner's notes and materials in one place, making it easy
 | **Frontend**         | HTML, CSS, JavaScript |
 | **Backend**          | Django (Python) |
 | **Database**         | SQLite3 |
-| **Version Control**  | Git & GitHub |
+| **Version Control and AGILE development**  | Git & GitHub |
 | **Deployment**       | Heroku
 | **Libraries & Tools** | Django Authentication, CKEditor5 for rich text editing, Django Signals for user group management |
 
@@ -75,9 +86,9 @@ Grapple keeps English learner's notes and materials in one place, making it easy
 ## User Roles
 | User type | Permissions |
 |-----------:|----------|
-| Unauthenticated| Can browse some of the site but has limited access to functionality and materials. | Testing123! |
-| Students | Can search, read, bookmark, and make notes / comments on lessons. Dashboard allows them to access bookmarked lessons quickly. | Testing123! |
-| Content Creators | Can create, read, update, and delete (CRUD) lessons from their dashboard. lesson creator allows them to add title, tags, preview, and content.|
+| **Unauthenticated**| Can browse some of the site but has limited access to functionality and materials. | Testing123! |
+| **Students** | Can search, read, bookmark, and make notes / comments on lessons. Dashboard allows them to access bookmarked lessons quickly. | Testing123! |
+| **Content Creators** | Can create, read, update, and delete (CRUD) lessons from their dashboard. lesson creator allows them to add title, tags, preview, and content.|
 
 ## User Stories 
 ### Students
@@ -135,7 +146,7 @@ Grapple features include:
 <br>
 
 
-## Front End
+## Frontend
 
 
 ## Colour Scheme
@@ -252,3 +263,134 @@ Python elif script changes the content of this dropdown to respond to different 
 ## Backend
 
 ## Database Design
+
+You can see the ERD for Grapple's database here: 
+[LINK](https://lucid.app/lucidchart/eb04cdc2-e52d-4d54-81c1-61a33f8216c2/edit?viewport_loc=-2391%2C226%2C4905%2C2447%2C0_0&invitationId=inv_a2c1b154-7901-46e9-869c-9512ee2041a4).
+
+![The Entity Relationship Diagram for Grapple](docs/Grapple%20ERD.png)
+
+The current database accounts for UserProgress, Quiz, Question and Option models. These will be implemented in Grapple 2.0, where quizzes will be introduced into the userface, and students will be able to track their progress. 
+
+<br>
+<br>
+
+## User Authentication
+Grapple uses Django’s built-in authentication system to manage user login and registration securely.
+
+### **Registration**
+- Users can register an account using **CustomUserCreationForm**.
+- During registration, **Django automatically hashes passwords** for security.
+- Users are **automatically assigned to the "Students" group** using Django signals.
+
+### **Login**
+- Users log in using Django’s authentication system.
+- Django handles **session management** to maintain user state.
+- Only authenticated users can access protected views.
+
+
+## Role-Based Access Control (RBAC)
+
+- **Students**: Can browse and bookmark lessons.
+- **Content Creators**: Can create and manage lesson content.
+- Group assignment is handled via **Django Admin** or automatically via signals.
+
+User permissions are enforced using Django’s built-in **groups and decorators**.
+
+### **Access Restrictions**
+- **Students** can only access **lesson-related features**.
+- **Content Creators** can access **lesson creation and management tools**.
+
+### **Implementation**
+- `@login_required` ensures that only authenticated users can access protected pages.
+- `@user_passes_test(is_student)` and `@user_passes_test(is_content_creator)` restrict access based on role.
+
+### **Example: Restricting Content Creator Dashboard**
+```python
+@login_required
+@user_passes_test(is_content_creator)
+def creator_dashboard(request):
+    return render(request, 'dashboard/creator_dashboard.html')
+```
+
+
+## Password Security
+- Grapple **does not store raw passwords**. Django automatically encrypts them using **PBKDF2 hashing**.
+- Passwords are stored securely in Django’s database and are never exposed in plaintext.
+
+### **Enforcing Strong Passwords**
+Django uses the following password validators:
+- **Minimum length validator** (8+ characters).
+- **Common password validator** (prevents weak passwords).
+- **Numeric password validator** (avoids fully numeric passwords).
+
+
+## Session Management & CSRF Protection
+### **User Sessions**
+- Django uses **session-based authentication** (cookies).
+- After login, Django creates a secure session ID stored in the user’s browser.
+
+### **CSRF Protection**
+- All forms use `{% csrf_token %}` to prevent **Cross-Site Request Forgery (CSRF) attacks**.
+- Any request modifying data (e.g., posting comments) is protected.
+
+### **Secure Logout**
+Users can securely log out using Django’s `logout` function:
+```python
+def logout_view(request):
+    logout(request)
+    return redirect('landing')
+```
+
+
+## Deployment & Security Considerations
+### **Environment Variables**
+- All sensitive data (e.g., `SECRET_KEY`, database credentials) are stored in **environment variables**.
+- `.env` files are used locally, and variables are loaded securely in production.
+
+### **Production Settings**
+- **`DEBUG = False`** in production to prevent security leaks.
+- **`ALLOWED_HOSTS`** is set to restrict accepted requests.
+- **`SECRET_KEY` is hidden** using environment variables.
+
+### **Preventing Insecure Deployment**
+- **Passwords and keys are NEVER stored in GitHub**.
+- **Django security middleware is enabled** to prevent common attacks.
+
+
+
+## Testing
+
+### Manual Testing
+
+| **Feature** | **Test Case** | **Steps** | **Expected Result** | **Status** |
+|------------|-------------|-----------|-----------------|----------|
+| **User Authentication** | Registration | Enter valid details → Click "Sign Up" | Account is created, user redirected |  Passed |
+|  | Login (valid) | Enter correct username & password → Click "Login" | User is logged in and redirected |  Passed |
+|  | Login (invalid) | Enter wrong credentials → Click "Login" | "Invalid credentials" error message appears |  Passed |
+|  | Logout | Click "Logout" button | User is logged out, redirected to home |  Passed |
+| **Role-Based Access (RBAC)** | Student accessing `/dashboard/creator/` | Log in as student → Visit `/dashboard/creator/` | Redirected to `/dashboard/student/` |  Passed |
+|  | Creator accessing `/dashboard/student/` | Log in as creator → Visit `/dashboard/student/` | Redirected to `/dashboard/creator/` |  Passed |
+|  | Unauthenticated access | Visit `/dashboard/student/` without logging in | Redirected to `/login/` |  Passed |
+| **Lesson Management** | Create Lesson | Creator fills form & submits | Lesson appears in lesson manager |  Passed |
+|  | Edit Lesson | Creator edits a lesson & saves | Changes are saved |  Passed |
+|  | Delete Lesson | Creator deletes a lesson | Lesson is removed from database |  Passed |
+| **Student Features** | Bookmark Lesson | Student bookmarks/unbookmarks a lesson in either lesson_search or lesson_view | Lesson appears/disappears in "Bookmarked" section |  Passed |
+|  | Add Comment | Student posts a comment | Comment appears under the lesson and is visible to other users |  Passed |
+|  | Add Note | Student posts a personal note | Note appears under the lesson and isn't visible to other users |  Passed |
+| **Search & Filtering** | Search Lessons | Enter keyword in search bar | Only matching lessons appear |  Passed |
+|  | Filter by Tags | Select a tag filter | Only lessons with selected tag appear |  Passed |
+
+
+### Automated Testing
+
+
+
+
+## Future Features & Roadmap
+Grapple will continue to improve with the following planned updates:
+
+### **Planned Features**
+**Comment Editing & Deletion**: Students will be able to edit and delete their own comments.  
+**User Progress Tracking**: Track lessons completed and quiz scores.  
+**Interactive Quizzes**: Add multiple-choice quizzes for students to test their knowledge.  
+**Improved Search Functionality**: Advanced filtering options for lessons.  

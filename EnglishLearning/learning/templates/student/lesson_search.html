@@ -42,6 +42,11 @@
             </div>
 
             <p>{{ lesson.preview }}</p>
+            <p><strong>Tags:</strong> 
+                {% for tag in lesson.tags.all %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+             </p>
             <a href="{% url 'lesson_view' lesson.id %}" class="btn btn-primary">View Lesson</a>
         </div>
         {% endfor %}
