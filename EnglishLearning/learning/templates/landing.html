@@ -17,7 +17,7 @@
     {% for lesson in grammar_lessons %}
         <div class="lesson-item" onclick="location.href='{% url 'preview_lesson' lesson.id %}'">
             <div class="lesson-image">
-              <img src="{% static 'learning/images/grammar.png' %}" alt="Logo">
+              <img src="{% static 'learning/images/grammar.png' %}" alt="PIxel blocks stacked on top of each other in a pyramid">
             </div>
             <div class="lesson-preview">
                 <h4>{{ lesson.title }}</h4>

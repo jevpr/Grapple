@@ -1,6 +1,4 @@
-
-
-//This is the code for the menu dropdown 
+//This is the code for the menu dropdown
 document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.querySelector(".logo");
   const dropdownMenu = document.querySelector(".dropdown-menu");
@@ -27,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  
   // Close dropdown when clicking outside
   document.addEventListener("click", function (event) {
     if (
@@ -42,6 +39,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//This is the script for the sign up pop up
+document.addEventListener("DOMContentLoaded", function () {
+  let timeLeft = 5;
+  let signupBanner = document.getElementById("signup-banner");
+
+  setTimeout(function () {
+    signupBanner.style.bottom = "0";
+  }, timeLeft * 1000);
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   // ✅ Function to Submit the Form
@@ -78,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
 
 // This is the code for the bookmark toggle
 document.addEventListener("DOMContentLoaded", function () {

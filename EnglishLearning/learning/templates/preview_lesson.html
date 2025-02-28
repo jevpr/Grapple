@@ -10,52 +10,10 @@
         {{ lesson.content|safe }}
     </div>
 
-    <!-- ✅ Signup Banner (Initially Hidden) -->
+    <!-- Signup Banner (Initially Hidden) -->
     <div id="signup-banner">
         <p>To make the most of our free online content, sign up now!</p>
         <a href="{% url 'signup' %}" class="signup-button">Sign Up</a>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let timeLeft = 5;  // ✅ 5-second delay before the banner appears
-            let signupBanner = document.getElementById("signup-banner");
-
-            setTimeout(function () {
-                signupBanner.style.bottom = "0";  // ✅ Show the banner
-            }, timeLeft * 1000);  // ✅ Convert seconds to milliseconds
-        });
-    </script>
-
-    <style>
-        /* ✅ Hidden Banner (Initially Off-Screen) */
-        #signup-banner {
-            position: fixed;
-            bottom: -100px;  /* Start hidden */
-            left: 0;
-            width: 100%;
-            background-color: #FFD6E1;
-            color: black;
-            text-align: center;
-            padding: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: bottom 0.5s ease-in-out;  /* ✅ Smooth Slide-up Effect */
-        }
-
-        .signup-button {
-            background-color: #ff69b4;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-
-        .signup-button:hover {
-            background-color: #ff1493;
-        }
-    </style>
 
 {% endblock %}
