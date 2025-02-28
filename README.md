@@ -88,7 +88,16 @@ Grapple was developed using an Agile approach, with tasks organized and tracked 
 Below is an example of how tasks were structured in Microsoft To Do:
 ![A screenshot of a Microsoft To-Do list](docs/To-Do.png)
 
-I reviewed the to-do list on a daily basis, to make sure I was on track and had kept up to date on everything I needed to review. 
+I reviewed the to-do list on a daily basis, to make sure I was on track and had kept up to date on everything I needed to review.
+
+Using this approach, each user story was assigned a corresponding checklist item.
+
+| User Story | Agile Task in Microsoft To-Do | Status |
+|------------|------------------------------|---------|
+| As a student, I want to register an account... | "User Registration" Task | Completed |
+| As a student, I want to log in securely... | "User Authentication" Task | Completed |
+| As a content creator, I want to create a lesson... | "Lesson Creation Feature" Task | In Progress |
+
 
 <br>
 <br>
@@ -281,7 +290,12 @@ You can see the ERD for Grapple's database here:
 
 ![The Entity Relationship Diagram for Grapple](docs/Grapple%20ERD.png)
 
-The current database accounts for UserProgress, Quiz, Question and Option models. These will be implemented in Grapple 2.0, where quizzes will be introduced into the userface, and students will be able to track their progress. 
+
+- **User Model:** Differentiates between **students** and **content creators** for access control.  
+- **Lesson Model:** Stores structured content for each lesson, allowing CRUD operations for content creators.  
+- **Bookmark, Comment & Note Models:** Enable students to interact with lessons.  
+- **Quiz & Progress Models (Future Feature):** These are planned for Grapple 2.0 to support interactive learning and student progress tracking.  
+
 
 <br>
 <br>
@@ -397,6 +411,19 @@ def logout_view(request):
 As automated testing was optional according to the Portfolio 3 Assessment Guide, this will appear in the next iteration of Grapple. 
 
 
+### Validation
+The Grapple code was validated using the following methods: 
+1. HTML: W3C Validator passed with no issues
+2. CSS: Passed through Jigsaw with no major issues
+3. JavaScript passes through jslint.com with no major issues
+4. Python code is consistent in style and conforms to the PEP8 style guide
+
+![Screenshot of HTML validation successful](docs/html%20validation.png)
+<em>Screenshot of HTML validation successful</em>
+
+
+![Screenshot of CSS validation successful](docs/css%20validation.png)
+<em>Screenshot of CSS validation successful</em>
 
 ## Deployment
 
@@ -438,6 +465,12 @@ The project was linked to a GitHub repository using VS Code's built-in features.
 
 After signing in to Heroku, and linking to my Github, I deployed to Heroku by publishing from the main branch of my GitHub repository (Grapple).
 
+After deploying to Heroku, the live site was tested against the local development version to ensure:  
+- All core features (authentication, lesson search, CRUD operations) work as expected.  
+- The database is correctly configured, and all models function as intended.  
+- Role-based access control restricts user actions appropriately.  
+
+No inconsistencies were found between the local and deployed versions.  
 
 
 ## Future Features & Roadmap
@@ -450,3 +483,22 @@ Grapple will continue to improve with the following planned updates:
 **Improved Search Functionality**: Advanced filtering options for lessons.  
 
 
+
+## Credits
+ 
+This project, Grapple, is my own original work. Any code, assets, or resources that were not created by me have been properly referenced and credited where applicable.
+
+If any similarities to external sources exist, they are purely coincidental or the result of using widely accepted development practices. All code, design, and documentation presented in this submission reflect my understanding and effort.
+
+Font: [Google Fonts](https://fonts.google.com/)
+
+Pixel Art: [piskelapp.com](piskelapp.com)
+
+FontAwesome - [fontawesome.com](fontawesome.com)
+
+Django CKEditor 5 - [https://ckeditor.com/](https://ckeditor.com/)
+
+### Other Third Part Libraries and Dependencies
+- Django Authentication & User Management - Used for user registration and login
+- Django Signals - Auto-assigning users to groups
+- Django ORM - For database interactions
