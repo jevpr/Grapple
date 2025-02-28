@@ -149,7 +149,6 @@ CKEDITOR_5_CONFIGS = {
                 "link", "insertTable", "mediaEmbed", "|",
                 "undo", "redo", "|",
                 "alignment", "fontSize", "fontColor", "highlight", "|",
-                "imageUpload", "imageStyle:full", "imageStyle:side", "|",
                 "math", "specialCharacters"
             ],
             "shouldNotGroupWhenFull": True,  # ✅ Forces wrapping instead of hiding items
